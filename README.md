@@ -73,6 +73,7 @@ The backend is a server running on port 8080, and covers the following endpoints
         "religion": "Buddhist"
     }
 ]
+```
 - `/addStudent - POST`: Add student to the database. Use the following request body:
 ```json
 {
@@ -118,3 +119,26 @@ The frontend provides the following features.
 - Add new student
 - Delete teacher
 - Delete student
+
+## How to Run the Backend
+
+Please install the following prerequisites. 
+
+- Install Node JS - https://nodejs.org/en/download/
+- Run `npm install`
+- Run `npm start`
+
+To run the tests, use the command - `npm test`
+
+## Tasks
+
+The completion of these tasks will be decided on the successful completion of the unit tests.
+
+### Task one
+
+The `/deleteStudent` and `deleteTeacher` endpoints are incomplete. Please read this ReadMe file (the api spec is given above), and complete the delete student and delete teacher endpoints.
+
+
+### Task two
+
+Please read the api spec given above, and create an `addTeacher` endpoint and a `addStudent` endpoints. Both of these should be POST endpoints and should return a 200 response.
