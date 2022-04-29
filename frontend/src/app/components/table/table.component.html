@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<div class="table-container">
+    <table>
+        <tr>
+          <th>Name</th>
+          <th>Staff ID</th>
+          <th>DOB</th>
+          <th>Salary</th>
+          <th>Address</th>
+          <th>Modules Taught</th>
+          <th>Classes Taught</th>
+          <th style="width: 50px;"></th>
+        </tr>
+        <tr *ngFor="let teacher of teacherData">
+          <td>{{teacher.name}}</td>
+          <td>{{teacher.id}}</td>
+          <td>{{2022 - teacher.age}}</td>
+          <td>Sample Data</td>
+          <td>Sample Data</td>
+          <td>Sample Data</td>
+          <td>Sample Data</td>
+          <td style="text-align: center; color: #F24E1E;"><fa-icon [icon]="faTrash"></fa-icon></td>
+        </tr>
+    
+      </table>
+</div>

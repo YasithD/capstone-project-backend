@@ -1,4 +1,4 @@
-import {server} from "./server.js";
+import server from "./server.js";
 
 server.listen(8080, function () {
   console.log(
