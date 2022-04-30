@@ -25,10 +25,38 @@ button{
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+    color: #272928;
+    background-color: white;
+    border-color: #272928;
+    border-style: solid;
+}
+
+.form-button{
+    color: white;
+    background-color: #272928;
+    width: 118px;
+    height: 42px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin-top: 20px;
+ 
+}
+
+.form-button:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 button:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+
+    color: white;
+    background-color: #272928;
 }
 
 .heading{

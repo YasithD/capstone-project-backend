@@ -1,25 +1,21 @@
 <div class="navbar-container">
     <div class="logo-container">
-        <img width="200px" src="../assets/white.png">
+        <img width="80px" src="http://placehold.jp/18/ffffff/000000/120x120.png?text=LOGO">
     </div>
   
     <div class="links-container">
-        <a (click)="getTeacherTable()">Teachers</a>
+        <a routerLink="" [ngClass]="{bold : title=='Teachers'}">Teachers</a>
         <p>|</p>
-        <a  (click)="getStudentTable()">Students</a>
+        <a routerLink="student" [ngClass]="{bold : title=='Students'}">Students</a>
     </div>
     <div class="blank-space"></div>
 </div>
 <div class="info-container">
-    <!-- <div class="info-text-container">
-        <p class="info-text">Hi Maude,</p>
-    </div> -->
     <div class="logo-container">
-        <p class="info-text">Test</p>
+        <p class="info-text">{{title}}</p>
     </div>
     <div class="blank-space"></div>
     <div class="links-container">
-        <!-- <a href="#" class="logout" style="color: #272928; font-weight: 500; font-size: 18px;">Edit Profile</a> -->
     </div>
 
 </div>

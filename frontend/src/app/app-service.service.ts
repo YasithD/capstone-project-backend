@@ -16,7 +16,27 @@ export class AppServiceService {
   //   return this.http.get('http://localhost:8080/listTeachers/');
   // }
 
-  getData(){
+  getTeacherData(){
     return this.http.get('/api/listTeachers')
+  }
+
+  getStudentData(){
+    return this.http.get('/api/listStudents')
+  }
+
+  addTeacher(payload: Object){
+    return this.http.post('/api/addTeacher', payload)
+  }
+
+  deleteTeacher(payload: Object){
+    return this.http.post('/api/deleteTeacher', payload)
+  }
+
+  addStudent(payload: Object){
+    return this.http.post('/api/addStudent', payload)
+  }
+
+  deleteStudent(payload: Object){
+    return this.http.post('/api/deleteStudent', payload)
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,17 +8,12 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
+  @Input()
+  title: string;
+
   constructor(  private router: Router) { }
 
   ngOnInit(): void {
-  }
-
-  getTeacherTable(){
-    this.router.navigate(['']);
-  }
-
-  getStudentTable(){
-
   }
 
 }

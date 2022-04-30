@@ -1,25 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { TableComponent } from './components/table/table.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { StudentTableComponent } from './components/student-table/student-table.component';
+import { TeacherTableComponent } from './components/teacher-table/teacher-table.component';
+import { AddNewTeacherComponent } from './components/add-new-teacher/add-new-teacher.component';
+import { AddNewStudentComponent } from './components/add-new-student/add-new-student.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    TableComponent
+    StudentTableComponent,
+    TeacherTableComponent,
+    AddNewTeacherComponent,
+    AddNewStudentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
