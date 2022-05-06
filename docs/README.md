@@ -20,7 +20,7 @@
 
 Implementing the Backend can be divided into 2 parts.
 
-1. [Generating sample data for the Database](#1-generating-sample-data-for-the-database).
+1. [Generating sample data for the Database](#31-generating-sample-data-for-the-database).
 2. Creating the API endpoints.
 3. Creating the Backend server.
 
