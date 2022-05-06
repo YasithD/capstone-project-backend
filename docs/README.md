@@ -21,8 +21,8 @@
 Implementing the Backend can be divided into 2 parts.
 
 1. [Generating sample data for the Database](#31-generating-sample-data-for-the-database).
-2. Creating the API endpoints.
-3. Creating the Backend server.
+2. [Creating the API endpoints](#32-creating-the-api-endpoints).
+3. [Creating the Backend server](#33-creating-the-backend-server).
 
 ### 3.1. Generating sample data for the Database
 
@@ -72,10 +72,91 @@ export const initializeDatabase = () => {
 };
 ```
 
-> The SQL query of the form `CREATE TABLE <table_name> (attribute_1, attribute_2, ...)` is used to create a table in the database. Here, a table named `teacher` and a table named `student` in created separetly.
+> The SQLite query of the form `CREATE TABLE <table_name> (attribute_1, attribute_2, ...)` is used to create a table in the database. Here, a table named `teacher` and a table named `student` in created separetly.
 
-> The SQL query of the form `INSERT INTO <table_name> values (value_1, value_2, ...)` is used to insert data to a table in the database. Here, dummy data is inserted into the `teacher` table and the `student` table we created.
+> The SQLite query of the form `INSERT INTO <table_name> values (value_1, value_2, ...)` is used to insert data to a table in the database. Here, dummy data is inserted into the `teacher` table and the `student` table we created.
 
 > The `run` method of the `sqlite3 Database` is used to run a SQL query which doesn't retrive any result data. Use the following [link](https://github.com/TryGhost/node-sqlite3/wiki/API#databaserunsql-param--callback) for further details about the method.
+
+Since, we have now successfully initialized the database and added the dummy data, next let's create the API endpoints for the `CRUD operations` related to the `teacher` class.
+
+> Here, `CRUD operations` refers to `Create`, `Read`, `Update`, and `Delete` operations of the data.
+
+### 3.2. Creating the API endpoints
+
+In this tutorial we will be guiding you to create the api endpoints for the `CRUD operations` of the teacher class.
+
+- First let's create the API endpoint for adding a teacher to the database.
+
+```js
+export const addTeacher = async (id, name, age) => {
+	return new Promise(function (resolve, reject) {
+		db.all(
+			`INSERT INTO teacher values (${id}, '${name}', ${age})`,
+			function (err, rows) {
+				if (err != null) {
+					console.log(err);
+					reject({ status: 'error' });
+				}
+				console.log('Successfully inserted teacher into database');
+				resolve({ status: 'successfully added teacher' });
+			}
+		);
+	});
+};
+```
+
+> Here a `Promise` is returned when a `teacher` object is created. A `Promise` object represents the eventual completion (or failure) of an asynchronous operation and its resulting value [[1](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)]. A function can be passed into the `Promise` object with `resolve`, and `reject` methods to be called upon successfulll completion or failure respectively.
+
+> In the above code, when a teacher is successfully added to the database, the `resolve` method will return a `status` message as `"successfully added teacher"`. If any error is occurred during the creation of a teacher, the `reject` method will return a `status` message as `"error"`.
+
+> The `all` method of the `sqlite3 Database` accepts a SQL query, and can be provided with the `callback function` to be ran upon completion. The `callback function` includes parameters `err`, and `rows` which refers to any error occurred during the process and the resulting rows from the database. For further details about the method, refer to the following [link](https://github.com/TryGhost/node-sqlite3/wiki/API#databaseallsql-param--callback).
+
+- Secondly let's create the API endpoint for Reading the Information of the teachers in the database.
+
+> For this procedure we need two components.
+
+1. A serverside endpoint to handle the request sent.
+2. A database function to read the database.
+
+> Let's look at the database function to read/retrieve the teacher data from the database.
+
+```js
+export const readTeachers = async () => {
+	return new Promise(function (resolve, reject) {
+		db.all('SELECT * FROM teacher', function (err, rows) {
+			if (err != null) {
+				console.log(err);
+				reject({ status: 'error' });
+			}
+			console.log('Successfully fetched teachers from database');
+			resolve(rows);
+		});
+	});
+};
+```
+
+> In the above code, all the teacher infomation in the teacher table is retrived. The `resolve` method will return the database rows of the teacher table. If any error is occurred during the creation of a teacher, the `reject` method will return a `status` message as `"error"`.
+
+> The SQLite query of the form `SELECT * FROM <table_name>` is used to retrieve all the data of a table in the database. Here, `*` is used to retrieve data of all the columns. Alternatively we can specify the column names of which the data should be retrieved.
+
+- Next, let's implement the API endpoint for the delete operation of the teacher class.
+
+```js
+export const deleteTeacher = async id => {
+	return new Promise(function (resolve, reject) {
+		db.all(`DELETE FROM teacher WHERE id=${id}`, function (err, rows) {
+			if (err != null) {
+				console.log(err);
+				reject({ status: 'error' });
+			}
+			console.log('Successfully deleted teacher from database');
+			resolve({ status: 'successfully deleted teacher' });
+		});
+	});
+};
+```
+
+> In SQLite, the SQL query format `DELETE FROM <table_name> WHERE <attribute_1>=<value_1> AND/OR ...` is used for deleting a row from the given table. In the above code the `teacher's id` value is used to identify the row to be deleted from the `teacher` table.
 
 ## 4. Implementing the Frontend
