@@ -24,7 +24,7 @@ Implementing the Backend can be divided into 2 parts.
 2. Creating the API endpoints.
 3. Creating the Backend server.
 
-### 1. Generating sample data for the Database
+### 3.1. Generating sample data for the Database
 
 > As mentioned in the [setting up the environment](#2-setting-up-the-environment) section, we installed `sqlite3` [npm package](https://www.npmjs.com/package/sqlite3) to create the database instance of our application. Now, let's see how we can use that package in our application.
 
