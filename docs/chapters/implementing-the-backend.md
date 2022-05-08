@@ -8,7 +8,7 @@ Implementing the Backend can be divided into 2 parts.
 
 ### 3.1. Generating sample data for the Database
 
-> As mentioned in the [setting up the environment](#2-setting-up-the-environment) section, we installed `sqlite3` [npm package](https://www.npmjs.com/package/sqlite3) to create the database instance of our application. Now, let's see how we can use that package in our application.
+> As mentioned in the [setting up the environment](/docs/chapters/setting-up-the-environment.md) section, we installed `sqlite3` [npm package](https://www.npmjs.com/package/sqlite3) to create the database instance of our application. Now, let's see how we can use that package in our application.
 
 In your application's root, create a folder named `backend`. Inside the `backend` folder create a file named `database.js` to implement our database related functionalities.
 
