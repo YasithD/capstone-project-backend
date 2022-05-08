@@ -217,4 +217,10 @@ app.get("/listTeachers", async function (req, res) {
 
 - In the above example, the `readTeachers` API is access through a `get` method. The endpoint `/listTeachers` is used to direct the requests to the API.
 
+
+- Note that an `async` function is used for the callback function. An `async` function are used to return a `Promise`. In the [section](#secondly-lets-create-the-api-for-reading-the-information-of-the-teachers-in-the-database) when we created the `readTeachers` function, note that a `Promise` is returned. To return this `Promise` value, an `async` function is used as the callback function of the `get` method. To access the `Promise` value, an `await` statement is used. This stops the execution of the function until the returned `Promise` is resolved or rejected.
+
+
+- Finally, `res.setHeader()` is used to set the header values of the response, and `res.end()` is used to end the response process. For further details about the methods, use this [link](https://expressjs.com/en/5x/api.html#res). 
+
 ## 4. Implementing the Frontend
