@@ -257,7 +257,7 @@ app.post("/deleteTeacher", async function (req, res) {
 
 ```json
 {
-  "id": "teacher's id"
+  "id": "teacher_id"
 }
 ```
 
