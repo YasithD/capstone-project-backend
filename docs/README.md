@@ -169,7 +169,7 @@ export const deleteTeacher = async id => {
 
 Inside the `backend` folder we created in the [Generating sample data for the Database](#31-generating-sample-data-for-the-database) section, create a file named `server.js` to manage the Backend server.
 
-Now let's first import the essentials to run our Backend server.
+#### Now let's first import the essentials to run our Backend server.
 
 ```js
 import express from "express";
@@ -190,6 +190,31 @@ import {
 
 - The next set of imports are the APIs we created in the `database.js` file we created in the last section.
 
+#### Next step is to create the API endpoints for the APIs we created in the last section.
 
+```js
+app.get("/listTeachers", async function (req, res) {
+    console.log("Request received to list teachers");
+    let data = await readTeachers();
+    
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(data));
+});
+```
+
+- This is the API endpoint for retrieving the list of teachers through the `readTeachers` API, from the `teachers` table.
+
+> Depending on what we need to do with an API, different methods are used to create the API endpoints. The same methods will be used while calling the APIs as well. Following are the most commonly used methods.
+> 1. `POST` - This method is used when an API is used to send data to the database (*create*).
+> 2. `GET` - This method is used when an API is used to retrieve data (*read*).
+> 3. `PUT` - This method is used when an API is used to update already existing data in a database (*update*).
+> 4. `DELETE` - This method is used when an API is used to delete data from the database (*delete*).
+> 
+> As mentioned in the parentheses, these methods map to the `CRUD` operations of the APIs.
+
+- In the `express` module, we pass a `path` argument and a `callback` function to the `get` method. Here the `path` refers to the endpoint we will be using to call the API. The `callback` function contains a `Request` and a `Response` object which is denoted by `req` and `res` respectively. Those objects contain methods to manipulate the request and the response of the API. For further details, access the documentation of `express` using this [link](https://expressjs.com/).
+
+
+- In the above example, the `readTeachers` API is access through a `get` method. The endpoint `/listTeachers` is used to direct the requests to the API.
 
 ## 4. Implementing the Frontend
