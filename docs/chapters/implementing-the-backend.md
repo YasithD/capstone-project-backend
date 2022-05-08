@@ -203,4 +203,62 @@ app.get("/listTeachers", async function (req, res) {
 - Note that an `async` function is used for the callback function. An `async` function are used to return a `Promise`. In the [section](#secondly-lets-create-the-api-for-reading-the-information-of-the-teachers-in-the-database) when we created the `readTeachers` function, note that a `Promise` is returned. To return this `Promise` value, an `async` function is used as the callback function of the `get` method. To access the `Promise` value, an `await` statement is used. This stops the execution of the function until the returned `Promise` is resolved or rejected.
 
 
-- Finally, `res.setHeader()` is used to set the header values of the response, and `res.end()` is used to end the response process. For further details about the methods, use this [link](https://expressjs.com/en/5x/api.html#res). 
+- Finally, `res.setHeader()` is used to set the header values of the response, and `res.end()` is used to end the response process. For further details about the methods, use this [link](https://expressjs.com/en/5x/api.html#res).
+
+```js
+app.post("/addTeacher", async function (req, res) {
+    let reqBody = req.body;
+    console.log(
+    "Request received to add teacher. Req body: " + JSON.stringify(reqBody)
+    );
+    let data = await addTeacher(reqBody.id, reqBody.name, reqBody.age);
+    
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(data));
+});
+```
+
+- This is the API for creating/adding a teacher to the database via the `addTeacher` method we created earlier.
+
+
+- Similar to the previous API, this API uses the endpoint `/addTeacher` to access the API via a `post` method/request. The data required to create the teacher object is passed to the `post` method as a javascript object in the following format.
+
+```json
+{
+  "id": "teacher_id",
+  "name": "teacher_name",
+  "age": "teacher_age"
+}
+```
+
+- This incoming data object can be captured by the `body` attribute of the `req` object.
+
+
+- By triggering this API, a teacher object will be created in the database with the specified details in the data object of the request.
+
+
+```js
+app.post("/deleteTeacher", async function (req, res) {
+    let reqBody = req.body;
+    console.log(
+    "Request received to delete teacher. Req body: " + JSON.stringify(reqBody)
+    );
+    let data = await deleteTeacher(reqBody.id);
+    
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(data));
+});
+```
+
+- This API is used to delete a `teacher` object from the database using the `teacher's id` specified in the body of the `post` request.
+
+
+- Similar to the above APIs, the endpoint `/deleteTeacher` is used via a `post` method/request to delete the teacher object. The `teacher's id` is passed in the data object of the request in the following format as a javascript object.
+
+```json
+{
+  "id": "teacher's id"
+}
+```
+
+- This will pass the `id` value to the `deleteTeacher` method, and eventually it will delete the teacher object from the database with the specified `id` value.
