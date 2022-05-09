@@ -87,4 +87,6 @@ app.post("/deleteStudent", async function (req, res) {
   res.end(JSON.stringify(data));
 });
 
-export const server = app;
+// export const server = app;
+
+export default app;
