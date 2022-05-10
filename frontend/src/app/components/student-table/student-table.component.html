@@ -3,7 +3,7 @@
     <button (click)="addNewStudent()" class="btn">Add New &nbsp;<fa-icon [icon]="faPlus"></fa-icon></button>
   </div>
   <div class="table-container">
-      <table>
+      <table id="student-table">
           <tr>
             <th>Name</th>
             <th>Student ID</th>
@@ -22,7 +22,7 @@
             <!-- <td>Sample Data</td>
             <td>Sample Data</td>
             <td>Sample Data</td> -->
-            <td (click)="deleteStudent(student.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
+            <td id="student-delete-{{student.id}}" (click)="deleteStudent(student.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
           </tr>
       
         </table>

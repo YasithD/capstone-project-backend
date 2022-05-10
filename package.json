@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS='--experimental-vm-modules --experimental-specifier-resolution=node' jest",
+    "test": "NODE_OPTIONS='--experimental-vm-modules --experimental-specifier-resolution=node' jest --verbose ./backend/test",
     "start": "node backend/index.js"
   },
   "author": "keetmalin.13@cse.mrt.ac.lk",
