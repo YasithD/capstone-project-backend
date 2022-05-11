@@ -13,6 +13,7 @@
             <th>Modules Taught</th>
             <th>Classes Taught</th> -->
             <th style="width: 50px;"></th>
+            <th style="width: 50px;"></th>
           </tr>
           <tr *ngFor="let student of studentData">
             <td>{{student.name}}</td>
@@ -22,7 +23,8 @@
             <!-- <td>Sample Data</td>
             <td>Sample Data</td>
             <td>Sample Data</td> -->
-            <td id="student-delete-{{student.id}}" (click)="deleteStudent(student.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
+            <td (click)="editStudent(student.id)" style="text-align: center;"><fa-icon  class="edit-icon" [icon]="faPenSquare"></fa-icon></td>
+            <td (click)="deleteStudent(student.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
           </tr>
       
         </table>

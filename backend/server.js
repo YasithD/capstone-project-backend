@@ -8,6 +8,8 @@ import {
   addTeacher,
   deleteTeacher,
   deleteStudent,
+  readStudentInfo,
+  readTeacherInfo
 } from "./database.js";
 
 const app = express();
@@ -23,6 +25,15 @@ initializeDatabase();
 app.get("/listTeachers", async function (req, res) {
   console.log("Request received to list teachers");
   let data = await readTeachers();
+
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
+});
+
+app.post("/getTeacherInfo", async function (req, res) {
+  let reqBody = req.body;
+  console.log("Request received to get Teacher Info");
+  let data = await readTeacherInfo(reqBody.id);
 
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(data));
@@ -55,6 +66,15 @@ app.post("/deleteTeacher", async function (req, res) {
 app.get("/listStudents", async function (req, res) {
   console.log("Request received to list students");
   let data = await readStudents();
+
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
+});
+
+app.post("/getStudentInfo", async function (req, res) {
+  let reqBody = req.body;
+  console.log("Request received to get Student Info");
+  let data = await readStudentInfo(reqBody.id);
 
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(data));

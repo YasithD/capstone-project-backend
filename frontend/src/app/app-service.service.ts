@@ -24,6 +24,14 @@ export class AppServiceService {
     return this.http.get('/api/listStudents')
   }
 
+  getOneStudentData(payload: Object){
+    return this.http.post('/api/getStudentInfo', payload)
+  }
+
+  getOneTeacherData(payload: Object){
+    return this.http.post('/api/getTeacherInfo', payload)
+  }
+
   addTeacher(payload: Object){
     return this.http.post('/api/addTeacher', payload)
   }

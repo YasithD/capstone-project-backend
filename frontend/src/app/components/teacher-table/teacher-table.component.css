@@ -126,6 +126,17 @@ a{
  
 }
 
+.edit-icon{
+  font-size: 20px;
+  margin-left: -75px;
+  color: #5c625f;
+}
+
+.edit-icon:hover{
+  cursor: pointer;
+  color: #212322;
+}
+
 .info-text{
   font-size: 32px;
   font-weight: 500;
