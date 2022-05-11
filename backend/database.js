@@ -32,6 +32,20 @@ export const readTeachers = async () => {
     });
 }
 
+export const readTeacherInfo = async (id) => {
+    return new Promise(function(resolve,reject) {
+        db.all(`SELECT * FROM teacher WHERE id = ${id}`, function(err, rows) {
+            if(err != null){
+                console.log(err);
+                reject({"status": "error"})
+            }
+            console.log("Successfully fetched teacher info from database");
+            resolve(rows)
+        });
+        
+    });
+}
+
 export const addTeacher = async (id, name, age) => {
     return new Promise(function(resolve,reject) {
         db.all(`INSERT INTO teacher values (${id}, '${name}', ${age})`, function(err, rows) {
@@ -63,6 +77,20 @@ export const deleteTeacher = async (id) => {
 export const readStudents = async () => {
     return new Promise(function(resolve,reject) {
         db.all("SELECT * FROM student", function(err, rows) {
+            if(err != null){
+                console.log(err);
+                reject({"status": "error"})
+            }
+            console.log("Successfully fetched students from database");
+            resolve(rows)
+        });
+        
+    });
+}
+
+export const readStudentInfo = async (id) => {
+    return new Promise(function(resolve,reject) {
+        db.all(`SELECT * FROM student WHERE id = ${id}`, function(err, rows) {
             if(err != null){
                 console.log(err);
                 reject({"status": "error"})

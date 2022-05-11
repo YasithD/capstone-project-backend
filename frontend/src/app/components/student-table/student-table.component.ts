@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Router,NavigationExtras } from '@angular/router';
+import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import {AppServiceService} from '../../app-service.service';
 
 @Component({
@@ -13,6 +13,7 @@ export class StudentTableComponent implements OnInit {
 
   faTrash = faTrash;
   faPlus = faPlus;
+  faPenSquare = faPenSquare;
   studentData: any;
   selected: any;
 
@@ -24,6 +25,15 @@ export class StudentTableComponent implements OnInit {
 
   addNewStudent(){
     this.router.navigate(['addStudent'])
+  }
+
+  editStudent(id){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        id : id
+      }
+    };
+    this.router.navigate(['editStudent'], navigationExtras )
   }
 
   getStudentData(){
