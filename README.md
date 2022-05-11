@@ -90,10 +90,6 @@ The backend is a server running on port 8080, and covers the following endpoints
 }
 ```
 
-Start the backend with the following command
-
-```npm start```
-
 ### Database
 
 The database structure is simple, with only two tables.
@@ -119,6 +115,8 @@ The frontend provides the following features.
 - Add new student
 - Delete teacher
 - Delete student
+- Edit teacher
+- Edit student
 
 ## How to Run the Backend
 
@@ -130,9 +128,20 @@ Please install the following prerequisites.
 
 To run the tests, use the command - `npm test`
 
-## Tasks
+## How to Run the Frontend
 
-The completion of these tasks will be decided on the successful completion of the unit tests.
+Please install the following prerequisites. 
+
+- Install Node JS - https://nodejs.org/en/download/
+- Navigate to the `frontend` folder. `cd frontend`
+- Run `npm install`
+- Run `npm start`
+
+To run the tests, use the command - `npm test`
+
+# Tasks
+
+The completion of these tasks will be decided on the successful completion of the unit tests for both the frontend and the backend.
 
 ### Task one
 
