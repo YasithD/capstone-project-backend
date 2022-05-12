@@ -11,4 +11,4 @@
 2. [Setting up the environment](/docs/chapters/setting-up-the-environment.md).
 3. [Implementing the Backend](/docs/chapters/implementing-the-backend.md).
 4. [Implementing the Frontend](/docs/chapters/implementing-the-frontend.md).
-5. [Project tasks](/docs/chapters/project-tasks.md)
+5. [Project tasks](/docs/chapters/project-tasks.md).
