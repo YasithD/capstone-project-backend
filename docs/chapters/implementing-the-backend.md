@@ -161,13 +161,14 @@ import {
 
 - `Express` is a Node.js framework that provides facilities to run the services we need to initiate the server. We will be creating APIs using `express` and the functions we created in last section. Express provides a robust set of features for web application creation.
   
-- Middleware are functions that have access to the  request object (req), the response object (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information)
+
+- Middleware are functions that have access to the  request object (req), the response object (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information).
 
 
-- The next import is the [`body-parser`](https://www.npmjs.com/package/body-parser). It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds and also convert he request body into JS datatypes. Read more about [body-parser](https://www.npmjs.com/package/body-parser)
+- The next import is the [`body-parser`](https://www.npmjs.com/package/body-parser). It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds and also convert the request body into JS datatype. Read more about [body-parser](https://www.npmjs.com/package/body-parser).
 
 
-- The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules.)
+- The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules).
 
 ```js
 const app = express();
@@ -180,13 +181,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 ```
 
-- In this [app.use()](https://expressjs.com/en/guide/using-middleware.html) instructs the express object to use the middlewares passed as parameters. The first middleware passed is the [bodyparser.urlencoded()](http://expressjs.com/en/resources/middleware/body-parser.html) which Returns middleware that only parses urlencoded bodies and [bodyparser.json()](http://expressjs.com/en/resources/middleware/body-parser.html) instructs the requst body should be in the json format.
+- In this [app.use()](https://expressjs.com/en/guide/using-middleware.html) instructs the express object to use the middlewares passed as parameters. The first middleware passed is the [bodyparser.urlencoded()](http://expressjs.com/en/resources/middleware/body-parser.html) which Returns middleware that only parses urlencoded bodies and [bodyparser.json()](http://expressjs.com/en/resources/middleware/body-parser.html) instructs the request body should be in the json format.
 
 ```js
 initializeDatabase();
 ```
 
-- This runs the function we decribed in the [earliar section](#31-generating-sample-data-for-the-database). which adds a set of dummy data into the database.
+- This runs the function we described in the [earlier section](#31-generating-sample-data-for-the-database) which adds a set of dummy data into the database.
 
 #### Next step is to create APIs using the functions we created in the last section.
 
@@ -296,6 +297,9 @@ server.listen(8080, function () {
 });
 ```
 
-- Running this will activate the express server in port 8080 and you can send requests t this url.
-- Read more on [server.listen()](https://www.geeksforgeeks.org/node-js-server-listen-method/)
-- To run this use theterminal and type `node index.js`
+- Running this will activate the express server in port `8080` and you can send requests to this url.
+- Read more on [server.listen()](https://www.geeksforgeeks.org/node-js-server-listen-method/).
+- To run the Backend server, in the `project's root` open a terminal and run the following command.
+```bash
+npm start
+```
