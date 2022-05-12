@@ -1,6 +1,6 @@
 ## 5. Project tasks
 
-Complete the following tasks of implementing features of the `student` class to completed the `Capstone Project`.
+Complete the following tasks of implementing features of the `student` class to complete the `Capstone Project`.
 
 <table>
     <tr>
