@@ -101,11 +101,6 @@ export const addTeacher = async (id, name, age) => {
 
 #### Secondly let's create the function for Reading the Information of the teachers in the database.
 
-> For this procedure we need two components.
-
-1. A serverside endpoint to handle the request sent.
-2. A database function to read the database.
-
 > Let's look at the database function to read/retrieve the teacher data from the database.
 
 ```js
@@ -164,13 +159,15 @@ import {
 } from "./database.js";
 ```
 
-- `Express` is a Node.js web application that provides facilities to run the services we need to initiate the server. We will be creating APIs using `express` and the functions we created in last section.
+- `Express` is a Node.js framework that provides facilities to run the services we need to initiate the server. We will be creating APIs using `express` and the functions we created in last section. Express provides a robust set of features for web application creation.
+  
+- Middleware are functions that have access to the  request object (req), the response object (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information)
 
 
-- The next import is the `body-parser`. It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds.
+- The next import is the [`body-parser`](https://www.npmjs.com/package/body-parser). It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds and also convert he request body into JS datatypes. Read more about [body-parser](https://www.npmjs.com/package/body-parser)
 
 
-- The next set of imports are the functions we created in the `database.js` file.
+- The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules.)
 
 #### Next step is to create APIs using the functions we created in the last section.
 
