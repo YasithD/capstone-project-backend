@@ -169,6 +169,25 @@ import {
 
 - The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules.)
 
+```js
+const app = express();
+```
+
+- This creates the express framework object which is used to initialize our server. Read more on [express()](https://expressjs.com/en/api.html)
+
+```js
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+```
+
+- In this [app.use()](https://expressjs.com/en/guide/using-middleware.html) instructs the express object to use the middlewares passed as parameters. The first middleware passed is the [bodyparser.urlencoded()](http://expressjs.com/en/resources/middleware/body-parser.html) which Returns middleware that only parses urlencoded bodies and [bodyparser.json()](http://expressjs.com/en/resources/middleware/body-parser.html) instructs the requst body should be in the json format.
+
+```js
+initializeDatabase();
+```
+
+- This runs the function we decribed in the [earliar section](#31-generating-sample-data-for-the-database). which adds a set of dummy data into the database.
+
 #### Next step is to create APIs using the functions we created in the last section.
 
 ##### 1. API for retrieving teachers
@@ -261,3 +280,22 @@ app.post("/deleteTeacher", async function (req, res) {
 ```
 
 - This will pass the `id` value to the `deleteTeacher` method, and eventually it will delete the teacher object from the database with the specified `id` value.
+
+
+### 3.4. Running the server.
+
+- When we check the `index.js` file we will the following code snippet
+
+```js
+import server from "./server.js";
+
+server.listen(8080, function () {
+  console.log(
+    "Capstone Project Backend is running on http://localhost:8080"
+  );
+});
+```
+
+- Running this will activate the express server in port 8080 and you can send requests t this url.
+- Read more on [server.listen()](https://www.geeksforgeeks.org/node-js-server-listen-method/)
+- To run this use theterminal and type `node index.js`
