@@ -4,11 +4,6 @@ Completed the following tasks of implementing features of the `student` class to
 
 <table>
     <tr>
-        <td></td>
-        <td>Tasks</td>
-        <td></td>
-    </tr>
-    <tr>
         <td><a href="/docs/tasks/task-1.md">Task 1</a></td>
         <td><a href="/docs/tasks/task-2.md">Task 2</a></td>
         <td><a href="/docs/tasks/task-3.md">Task 3</a></td>
