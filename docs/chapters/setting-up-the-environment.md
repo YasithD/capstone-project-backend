@@ -27,7 +27,7 @@ Check whether `Angular CLI` is already installed by typing the following command
 ng
 ```
 
-If the `Angular CLI` is not installed install it using the `npm package manager` by typing the following command in the command line.
+If the `Angular CLI` is not installed, install it using the `npm package manager` by typing the following command in the command line.
 ```bash
 # Install Angular CLI globally
 npm install -g @angular/cli
