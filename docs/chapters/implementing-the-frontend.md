@@ -54,7 +54,7 @@ The next part is the `routes` array. This array is used to specify which compone
 
 > Ex: Load the `AddNewTeacherComponent` component when the URL `<base_url>/addTeacher` is specified.
 
-> Important: Component specified in the route `''` will be loaded at the `base URL`.
+> **Important**: Component specified in the route `''` will be loaded at the `base URL`.
 
 > For more details on these modules, read the following API docs.
 > 1. [Routes](https://angular.io/api/router/Routes).
