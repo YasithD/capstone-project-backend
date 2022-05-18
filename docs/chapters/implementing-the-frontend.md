@@ -71,6 +71,8 @@ Next, we provide the routes to the **AppRoutingModule's** `import` array using t
 
 The `exports` array is used to export the `RouterModule` so it will be available throughout the application.
 
+### Navigation
+
 ### Components
 
 #### 1. Add new Teacher
@@ -186,3 +188,40 @@ export class AddNewTeacherComponent implements OnInit {
 
 }
 ```
+
+Next, let's take look at the HTML template of the `add-new-teacher` component. In the `add-new-teacher` directory, look out for a file named `add-new-teacher.component.html` and open it.
+
+Copy and paste the following code into the file.
+
+```html
+<app-navbar title="Add New Teacher"></app-navbar>
+<div>
+    <form #addTeacherForm="ngForm"  class="form-container" (ngSubmit)="createTeacher(addTeacherForm.value)">
+        <input id="teacher-id" ngModel name="id" type="text" placeholder="ID">
+        <input id="teacher-name" ngModel name="name" type="text" placeholder="Name">
+        <input id="teacher-age" ngModel name="age" type="text" placeholder="Age">
+        <button id="teacher-add" class="form-button">Create</button>
+    </form>
+</div>
+```
+
+#### Understanding the code
+
+The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Add New Teacher**.
+
+Next, a `form` HTML element is added to submit the data given provided by the user.
+
+
+
+Now let's add the necessary `CSS` for the HTML template. Open the `add-new-teacher.component.css` file and paste the following CSS styles.
+
+```css
+.form-container{
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+```
+
