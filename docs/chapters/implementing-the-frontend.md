@@ -179,6 +179,179 @@ The `exports` array is used to export the `RouterModule` so it will be available
 
 ### Navigation
 
+In this section we will create a navigation panel for our frontend. It will help a user to navigate between `Teachers`, and `Students`. Start by creating an **Angular Component** `navbar` using the **Angular CLI**.
+
+```bash
+ng generate component navbar
+```
+
+Now, navigate to the `navbar.component.ts` file in the `components/navbar` directory.
+
+First, import the `Router` component we exported in the [Routing](#routing) section.
+
+```typescript
+import { Router } from '@angular/router';
+```
+
+We will be using this `navbar` component to display the `Title` of the page as well. Due to that we should make the component able to receive the `title` as an `input` from its parent. Nothing will be sent from the component to its parent. This is called `one-way data binding` and `Angular` uses a decorator called `@Input` for this purpose.
+
+First, import the `@Input` decorator from `@angular/core`. Use the same object used to import `Component` and `OnInit` to import `Input`. 
+
+```typescript
+import { Component, OnInit, Input } from '@angular/core';
+```
+
+Inside the `NavbarComponent` include the `@Input` decorator and give it a `title` variable of type `string`.
+
+```typescript
+@Input() title: string;
+```
+
+Finally, inside the `constructor` of the component, pass the `Router` so it can be accessed by the component for navigation.
+
+```typescript
+constructor(  private router: Router) { }
+```
+
+The finalized file should look like this.
+
+```typescript
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
+})
+export class NavbarComponent implements OnInit {
+
+  @Input()
+  title: string;
+
+  constructor(  private router: Router) { }
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+Now, open the `navbar.component.html` file located inside the `navbar` directory.
+
+Copy and paste the following code to the file.
+
+```html
+<div class="navbar-container">
+    <div class="logo-container">
+        <img width="80px" src="http://placehold.jp/18/ffffff/000000/120x120.png?text=LOGO">
+    </div>
+  
+    <div class="links-container">
+        <a routerLink="" [ngClass]="{bold : title=='Teachers'}">Teachers</a>
+        <p>|</p>
+        <a routerLink="student" [ngClass]="{bold : title=='Students'}">Students</a>
+    </div>
+    <div class="blank-space"></div>
+</div>
+<div class="info-container">
+    <div class="logo-container">
+        <p class="info-text">{{title}}</p>
+    </div>
+    <div class="blank-space"></div>
+    <div class="links-container">
+    </div>
+
+</div>
+```
+
+#### Understanding the code
+
+The `navbar` contains **2** sections. One for displaying the **navigation links** (*navbar-container*) and one for **displaying the title** (*info-container*).
+
+First, the logo is added to the *navbar-container*. The *links-container* includes the navigation links for our frontend. 
+
+- `routerLink` links the element to the route specified. On this instance, when the HTML `a` tag is clicked, it will navigate to the route specified at `routerLink`.
+- `[ngClass]` is a `property binding method` in `Angular` to add/remove a class to/from an element. Here, a logical operation is included inside the `[ngClass]`. What happens here is, if the `title` property passed in as an **input** for the element is equal to the specified name, the class `bold` is added to the `a` tag.
+
+In the *info-container* we display the `title` received using the `{{ title }}` syntax.
+
+Now, open the `navbar.component.css` file located in the `navbar` directory.
+
+Copy and paste the following CSS styles for the classed specified in the HTML template.
+
+```css
+.navbar-container{
+    width: 100%;
+    height: 120px;
+    background-color: #272928;
+    display: flex;
+}
+
+.logo-container{
+    width: 33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blank-space{
+    width: 33%;
+}
+
+.links-container{
+    width: 33%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+    font-weight: 100;
+}
+
+a{
+    font-size: 22px;
+    margin: 20px;
+    color: white;
+    font-weight: 300;
+}
+
+.bold{
+    font-weight: 400;
+}
+
+.logout{
+    font-weight: 200;
+}
+
+.info-container{
+    background-color: #EEEEEE;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+}
+
+.info-text-container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 6%;
+   
+}
+
+.info-text{
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -2px;
+}
+```
+
 ### Components
 
 #### 1. Add new Teacher
