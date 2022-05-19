@@ -8,3 +8,5 @@ Task to complete:
 1. Create a component `add-new-student` to create the UI for adding a student.
 2. Create a component `edit-student` to create the UI for editing student details.
 3. Create a component `student-table` to create the UI for listing the students.
+
+> **Important**: Use the exact `component names` given above when implementing the `student's` components. Differing component names may cause to lose marks.
