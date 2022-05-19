@@ -6,6 +6,112 @@ Below sections will guide you sequentially on how to implement the frontend of t
 
 ### Services
 
+A component shouldn't fetch data from the server directly. It should only know how to present the fetched data. To decouple fetching the data and presenting the data, `Angular` uses `Services`. Services act as an intermediate layer between the frontend and the backend.
+
+In the [Implementing the Backend](/docs/chapters/implementing-the-backend.md) section, we created APIs for the `CRUD` operations of the Teacher class. Now, let's create a service to access those APIs.
+
+To create a `Angular Service`, we can use the `Angular CLI`. Type the following command in the terminal to create the `Service`.
+
+```bash
+ng generate service app-service
+```
+
+Now, in your `src/app` directory, look out for a file named `app-service.service.ts` and open it. Let's add the additional code to the `Service` to implement the necessary services.
+
+First, start by importing the `HttpClient` module from `@angular/common/http`.
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+```
+
+The `@Injectable` decorator is responsible for marking the `AppServiceService` class as a class that participates in the **[dependency injection system](https://angular.io/guide/dependency-injection)**. The metadata `providedIn: 'root'` registers a provider with the *root injector* for the service. That means the service will be provided at root level and `Angular` creates a single instance of the object which shared with any class that asks for it.
+
+Now, inside the `AppServiceService` class, add a **readonly** variable called `ROOT_URL` to specify the **root/base URL** of the backend.
+
+```typescript
+readonly ROOT_URL;
+```
+
+In the constructor add a private `HttpClien` instance called `http` and set the `ROOT_URL` to the base URL of the backend. In our case, `http://localhost:8080`.
+
+```typescript
+constructor(private http: HttpClient) {
+    this.ROOT_URL = 'http://localhost:8080'
+}
+```
+
+The next task is to implement the functions to call the APIs of the backend. Let's start by creating a function to retrieve teachers.
+
+#### 1. Retrieve Teachers
+
+```typescript
+getTeacherData() {
+    return this.http.get('/api/listTeachers')
+}
+```
+
+> The `get` method of the `HttpClient` module constructs an **observable** that, when **subscribed**, causes the configured `GET` request to execute on the server. For more information on the method, read the following [document](https://angular.io/api/common/http/HttpClient#get).
+
+#### 2. Retrieving a single Teacher
+
+```typescript
+getOneTeacherData(payload: Object) {
+    return this.http.post('/api/getTeacherInfo', payload)
+}
+```
+
+#### 3. Adding a Teacher
+
+```typescript
+addTeacher(payload: Object) {
+    return this.http.post('/api/addTeacher', payload)
+}
+```
+
+#### 4. Deleting a Teacher
+
+```typescript
+deleteTeacher(payload: Object) {
+    return this.http.post('/api/deleteTeacher', payload)
+}
+```
+
+The finalized `app-service` service should look like this.
+
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AppServiceService {
+
+  readonly ROOT_URL;
+
+  constructor(private http: HttpClient) {
+    this.ROOT_URL = 'http://localhost:8080'
+  }
+
+  getTeacherData(){
+    return this.http.get('/api/listTeachers')
+  }
+
+  getOneTeacherData(payload: Object){
+    return this.http.post('/api/getTeacherInfo', payload)
+  }
+
+  addTeacher(payload: Object){
+    return this.http.post('/api/addTeacher', payload)
+  }
+
+  deleteTeacher(payload: Object){
+    return this.http.post('/api/deleteTeacher', payload)
+  }
+  
+}
+```
+
 ### Routing
 
 Routing is the mechanism that is used to tell the browser what to load when a specific **URL** is called. This is essential in any website that has multiple UIs (*User Interfaces*).
