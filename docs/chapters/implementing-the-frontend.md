@@ -438,7 +438,7 @@ The `subscribe` method first catches the `response` of the server if the request
 
 If an **error** occurs during the request, the `error` is caught using the next callback function. In the code it is logged into the console. 
 
-The final `add-new-teacher` component should look like this.
+The final `add-new-teacher.component` component should look like this.
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -512,3 +512,521 @@ Now let's add the necessary `CSS` for the HTML template. Open the `add-new-teach
 }
 ```
 
+This code will style our component
+
+#### 2. Edit Teacher
+
+The component `edit-teacher` can be found in the `src/app/components` directory. It contains 4 files. Open the `edit-teacher.component.ts` file.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationExtras } from '@angular/router';
+import {AppServiceService} from '../../app-service.service';
+
+@Component({
+  selector: 'app-edit-teacher',
+  templateUrl: './edit-teacher.component.html',
+  styleUrls: ['./edit-teacher.component.css']
+})
+export class EditTeacherComponent implements OnInit {
+
+
+  teacherData: any;
+
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  navigation = this.router.getCurrentNavigation();
+
+  ngOnInit(): void {
+    this.getTeacherData();
+  }
+
+}
+```
+
+The initial code segments as similar to the ones explained in the previous [component](#1-add-new-teacher).
+
+The only Difference is the the code segment
+
+```js
+ngOnInit(): void {
+    this.getTeacherData();
+  }
+```
+
+Which instructs the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
+
+Now, let's create the two methods to get the teachers details which is named `getTeacherData` and a method to edit the Teacher data named `editTeacher`.
+
+Add these lines of code inside `EditTeacherComponent` 
+
+```typescript
+  getTeacherData(){
+    let teacher = {
+      id : this.navigation.extras.state.id
+    }
+    this.service.getOneTeacherData(teacher).subscribe((response)=>{
+      this.teacherData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
+  }
+
+  editTeacher(values){
+    console.log("Still hasn't been Implemented")
+  }
+```
+Here, firstly considering the function `getTeacherData` we get the id of the teacher from the state object saved on the navigation.
+
+By using the `AppServiceService` instance `service` passed into the constructor, the `getOneTeacherData` method of the service is called. The `subscribe` method is used to receive the data **asynchronously** and update the website.
+
+The final `edit-teacher.component` component should look like this.
+
+```typescript
+
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationExtras } from '@angular/router';
+import {AppServiceService} from '../../app-service.service';
+
+@Component({
+  selector: 'app-edit-teacher',
+  templateUrl: './edit-teacher.component.html',
+  styleUrls: ['./edit-teacher.component.css']
+})
+export class EditTeacherComponent implements OnInit {
+
+
+  teacherData: any;
+
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  navigation = this.router.getCurrentNavigation();
+
+  ngOnInit(): void {
+    this.getTeacherData();
+  }
+
+  getTeacherData(){
+    let teacher = {
+      id : this.navigation.extras.state.id
+    }
+    this.service.getOneTeacherData(teacher).subscribe((response)=>{
+      this.teacherData = response[0];
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
+  }
+
+  editTeacher(values){
+    console.log("Still hasn't been Implemented")
+  }
+
+}
+
+```
+
+Next, let's take look at the HTML template of the `edit-teacher` component. In the `edit-teacher` directory, look out for a file named `edit-teacher.component.html` and open it.
+
+Copy and paste the following code into the file.
+
+```html
+<app-navbar title="Edit Teacher Details"></app-navbar>
+<div>
+    <form #editTeacherForm="ngForm"  class="form-container" (ngSubmit)="editTeacher(editTeacherForm.value)">
+        <input id="teacher-name" ngModel name="name" type="text" placeholder="Name" value="{{teacherData?.name}}">
+        <input id="teacher-age" ngModel name="age" type="text" placeholder="Age" value="{{teacherData?.age}}">
+        <button id="teacher-edit" class="form-button">Edit & Save</button>
+    </form>
+</div>
+```
+
+#### Understanding the code
+
+The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Edit Teacher Details**.
+
+Next, a `form` HTML element is added to submit the data given provided by the user.
+
+In the form data the `value` option is filled with the data recieved by the `getTeacherData` function which is the `teacherData` object.
+
+
+Now let's add the necessary `CSS` for the HTML template. Open the `edit-teacher.component.css` file and paste the following CSS styles.
+
+```css
+.form-container{
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+```
+
+This code will style our component
+
+#### 2. Teacher Table
+
+The component `teacher-table` can be found in the `src/app/components` directory. It contains 4 files. Open the `teacher-table.component.ts` file.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Router,NavigationExtras } from '@angular/router';
+import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import {AppServiceService} from '../../app-service.service';
+
+@Component({
+  selector: 'app-teacher-table',
+  templateUrl: './teacher-table.component.html',
+  styleUrls: ['./teacher-table.component.css']
+})
+export class TeacherTableComponent implements OnInit {
+
+  faTrash = faTrash;
+  faPlus = faPlus;
+  faPenSquare = faPenSquare;
+  teacherData: any;
+  selected: any;
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.getTeacherData();
+  }
+```
+
+The initial code segments as similar to the ones explained in the previous [component](#1-add-new-teacher).
+
+The Differences is the the code segment
+
+```js
+ngOnInit(): void {
+    this.getTeacherData();
+  }
+```
+
+Which instructs the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
+
+```js
+import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+
+faTrash = faTrash;
+faPlus = faPlus;
+faPenSquare = faPenSquare;
+```
+
+`faTrash`, `faPlus` and `faPenSqure` are icons that are imported from fontawesome package, these icons are used in the `teacher-table.component.html` file.
+
+Now, let's create the 4 methods in `TeacherTableComponent` to get data for the component and route to specific functions on the system.
+
+`addNewTeacher` -> Route to add new teacher component.
+`editTeacher` -> Route to add edit teacher component.
+`getTeacherData` -> Get the data of the list of teachers in the system.
+`deleteTeacher` -> Delete the teacher with the id that is passed..
+
+
+Add these lines of code inside `EditTeacherComponent` 
+
+```typescript
+addNewTeacher(){
+  this.router.navigate(['addTeacher'])
+}
+
+editTeacher(id){
+  const navigationExtras: NavigationExtras = {
+    state: {
+      id : id
+    }
+  };
+  this.router.navigate(['editTeacher'], navigationExtras )
+}
+
+getTeacherData(){
+  this.selected = 'Teachers';
+  this.service.getTeacherData().subscribe((response)=>{
+    this.teacherData = response;
+  },(error)=>{
+    console.log('ERROR - ', error)
+  })
+}
+
+getStudentData(){
+  this.selected = 'Students';
+  this.service.getStudentData().subscribe((response)=>{
+    this.teacherData = response;
+  },(error)=>{
+    console.log('ERROR - ', error)
+  })
+}
+
+deleteTeacher(itemid){
+  const test = {
+    id: itemid
+  }
+  this.service.deleteTeacher(test).subscribe((response)=>{
+    this.getTeacherData()
+  })
+}
+```
+
+The final `teacher-table.component` component should look like this.
+
+```typescript
+
+import { Component, OnInit } from '@angular/core';
+import { Router,NavigationExtras } from '@angular/router';
+import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import {AppServiceService} from '../../app-service.service';
+
+@Component({
+  selector: 'app-teacher-table',
+  templateUrl: './teacher-table.component.html',
+  styleUrls: ['./teacher-table.component.css']
+})
+export class TeacherTableComponent implements OnInit {
+
+  faTrash = faTrash;
+  faPlus = faPlus;
+  faPenSquare = faPenSquare;
+  teacherData: any;
+  selected: any;
+
+  constructor(private service : AppServiceService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.getTeacherData();
+  }
+
+  addNewTeacher(){
+    this.router.navigate(['addTeacher'])
+  }
+
+  editTeacher(id){
+    const navigationExtras: NavigationExtras = {
+      state: {
+        id : id
+      }
+    };
+    this.router.navigate(['editTeacher'], navigationExtras )
+  }
+
+  getTeacherData(){
+    this.selected = 'Teachers';
+    this.service.getTeacherData().subscribe((response)=>{
+      this.teacherData = response;
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
+  }
+
+  getStudentData(){
+    this.selected = 'Students';
+    this.service.getStudentData().subscribe((response)=>{
+      this.teacherData = response;
+    },(error)=>{
+      console.log('ERROR - ', error)
+    })
+  }
+
+  deleteTeacher(itemid){
+    const test = {
+      id: itemid
+    }
+    this.service.deleteTeacher(test).subscribe((response)=>{
+      this.getTeacherData()
+    })
+  }
+}
+
+```
+
+Next, let's take look at the HTML template of the `teacher-table` component. In the `teacher-table` directory, look out for a file named `teacher-table.component.html` and open it.
+
+Copy and paste the following code into the file.
+
+```html
+<app-navbar title="Teachers"></app-navbar>
+<div class="add-btn-container">
+  <button (click)="addNewTeacher()" class="btn">Add New &nbsp;<fa-icon [icon]="faPlus"></fa-icon></button>
+</div>
+<div class="table-container">
+    <table id="teacher-table">
+        <tr>
+          <th>Name</th>
+          <th>Staff ID</th>
+          <th>DOB</th>
+          <th style="width: 50px;"></th>
+          <th style="width: 50px;"></th>
+        </tr>
+        <tr *ngFor="let teacher of teacherData">
+          <td>{{teacher.name}}</td>
+          <td>{{teacher.id}}</td>
+          <td>{{2022 - teacher.age}}</td>
+          <td id="teacher-edit-{{teacher.id}}"(click)="editTeacher(teacher.id)" style="text-align: center;"><fa-icon  class="edit-icon" [icon]="faPenSquare"></fa-icon></td>
+          <td id="teacher-delete-{{teacher.id}}" (click)="deleteTeacher(teacher.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
+        </tr>
+    
+      </table>
+</div>
+```
+
+#### Understanding the code
+
+The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Teachers**.
+
+Next, a `button` is added to add a teacher which on click execute the `addNewTeacher()` function defined in the component file.
+
+Note the usage of `faTrash`,`faPlus` and `faPenSquare` which are the imported icons from the awesome package mentioned above. 
+
+Next, a `table`,`<tr>` and `<td>`  HTML elements are used to create a table and `*ngFor="let teacher of teacherData"` is used to loop over teacherData where each item is accessed as teacher variable during the loop. the teacher variable is used to access the row data.
+
+Now let's add the necessary `CSS` for the HTML template. Open the `teacher-table.component.css` file and paste the following CSS styles.
+
+```css
+table {
+    font-family: 'Poppins', sans-serif;
+    border-collapse: collapse;
+    width: 75%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  td, th {
+    /* border: 0.01px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }
+  
+  /* tr:nth-child(even) {
+    background-color: #dddddd;
+  } */
+
+  th{
+    font-size: 16px;
+    background-color: #dddddd;
+  }
+
+  tr{
+    font-size: 14px;
+    background-color: white;
+  }
+
+.table-container{
+    padding: 0px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trash-icon{
+  font-size: 16px;
+  margin-left: -75px;
+}
+
+.trash-icon:hover{
+  cursor: pointer;
+  color: #f44009;
+}
+
+.add-btn-container{
+  padding: 20px 220px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.btn{
+  /* width: 70px; */
+  height: 30px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.navbar-container{
+  width: 100%;
+  height: 120px;
+  background-color: #272928;
+  display: flex;
+}
+
+.logo-container{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+.blank-space{
+  width: 33%;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+.links-container{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+  font-weight: 100;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+a{
+  font-size: 22px;
+  margin: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.logout{
+  font-weight: 200;
+}
+
+.info-container{
+  background-color: #EEEEEE;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+}
+
+.info-text-container{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6%;
+ 
+}
+
+.edit-icon{
+  font-size: 20px;
+  margin-left: -75px;
+  color: #5c625f;
+}
+
+.edit-icon:hover{
+  cursor: pointer;
+  color: #212322;
+}
+
+.info-text{
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -2px;
+}
+```
+
+`:hover` tag will apply the css styling when mouse pointer hovers over the element
