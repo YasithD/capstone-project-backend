@@ -878,4 +878,155 @@ Next, a `button` is added to add a teacher which on click execute the `addNewTea
 
 Note the usage of `faTrash`,`faPlus` and `faPenSquare` which are the imported icons from the awesome package mentioned above. 
 
-Next, a `table`,`<tr>` and `<td>`  HTML elements are used to create a table and `*ngFor="let teacher of teacherData"` is used to loop over teacherData where each item is accessed as teacher variable during the loop.
+Next, a `table`,`<tr>` and `<td>`  HTML elements are used to create a table and `*ngFor="let teacher of teacherData"` is used to loop over teacherData where each item is accessed as teacher variable during the loop. the teacher variable is used to access the row data.
+
+Now let's add the necessary `CSS` for the HTML template. Open the `teacher-table.component.css` file and paste the following CSS styles.
+
+```css
+table {
+    font-family: 'Poppins', sans-serif;
+    border-collapse: collapse;
+    width: 75%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  
+  td, th {
+    /* border: 0.01px solid #dddddd; */
+    text-align: left;
+    padding: 8px;
+  }
+  
+  /* tr:nth-child(even) {
+    background-color: #dddddd;
+  } */
+
+  th{
+    font-size: 16px;
+    background-color: #dddddd;
+  }
+
+  tr{
+    font-size: 14px;
+    background-color: white;
+  }
+
+.table-container{
+    padding: 0px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trash-icon{
+  font-size: 16px;
+  margin-left: -75px;
+}
+
+.trash-icon:hover{
+  cursor: pointer;
+  color: #f44009;
+}
+
+.add-btn-container{
+  padding: 20px 220px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.btn{
+  /* width: 70px; */
+  height: 30px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.navbar-container{
+  width: 100%;
+  height: 120px;
+  background-color: #272928;
+  display: flex;
+}
+
+.logo-container{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+.blank-space{
+  width: 33%;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+.links-container{
+  width: 33%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+  font-weight: 100;
+
+  /* border-color: white;
+  border-style: solid; */
+}
+
+a{
+  font-size: 22px;
+  margin: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.logout{
+  font-weight: 200;
+}
+
+.info-container{
+  background-color: #EEEEEE;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+}
+
+.info-text-container{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 6%;
+ 
+}
+
+.edit-icon{
+  font-size: 20px;
+  margin-left: -75px;
+  color: #5c625f;
+}
+
+.edit-icon:hover{
+  cursor: pointer;
+  color: #212322;
+}
+
+.info-text{
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -2px;
+}
+```
+
+`:hover` tag will apply the css styling when mouse pointer hovers over the element
