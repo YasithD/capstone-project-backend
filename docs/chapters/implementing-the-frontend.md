@@ -177,6 +177,14 @@ Next, we provide the routes to the **AppRoutingModule's** `import` array using t
 
 The `exports` array is used to export the `RouterModule` so it will be available throughout the application.
 
+After creating the `Router`, replace all the code in `app.component.html` which is located in the `src/app` directory with the following.
+
+```html
+<router-outlet></router-outlet>
+```
+
+The selector for the `Router` is `router-outlet`. Now in the `app` component, the `Router` will be loaded when the `app` is served. 
+
 ### Navigation
 
 In this section we will create a navigation panel for our frontend. It will help a user to navigate between `Teachers`, and `Students`. Start by creating an **Angular Component** `navbar` using the **Angular CLI**.
