@@ -512,3 +512,7 @@ Now let's add the necessary `CSS` for the HTML template. Open the `add-new-teach
 }
 ```
 
+#### 2. Edit Teacher
+
+The component `edit-teacher` can be found in the `src/app/components` directory. It contains 4 files. Open the `edit-teacher.component.ts` file.
+
