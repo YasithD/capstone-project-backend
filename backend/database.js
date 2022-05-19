@@ -68,7 +68,6 @@ export const deleteTeacher = async (id) => {
                 reject({"status": "error"})
             }
             console.log("Successfully deleted teacher from database");
-            resolve({status: "successfully deleted teacher"})
         });
         
     });
@@ -118,14 +117,6 @@ export const addStudent = async (id, name, age, religion) => {
 
 export const deleteStudent = async (id) => {
     return new Promise(function(resolve,reject) {
-        db.all(`DELETE FROM student WHERE id=${id}`, function(err, rows) {
-            if(err != null){
-                console.log(err);
-                reject({"status": "error"})
-            }
-            console.log("Successfully deleted student from database");
-            resolve({status: "successfully deleted student"})
-        });
         
     });
 }
