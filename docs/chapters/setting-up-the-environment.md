@@ -8,12 +8,12 @@ Check whether `Node.js` and `npm package manager` is already installed by typing
 ```bash
 # Check the Node.js version
 node -v
-```
 
-```bash
 # Check the npm version
 npm -v
 ```
+
+> **Important**: This project requires a Node.js version of 14 or higher.
 
 If the above is not installed, download suitable `Node.js` package for your OS using the following [link](https://nodejs.org/en/download/) and install it.
 
