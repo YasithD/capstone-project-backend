@@ -136,7 +136,6 @@ Please install the following prerequisites.
 - Navigate to the `frontend` folder. `cd frontend`
 - Run `npm install`
 - Run `npm start`
-- Navigate to http://localhost:4200/ on your browser
 
 To run the tests, use the command - `npm test`
 
@@ -144,15 +143,11 @@ To run the tests, use the command - `npm test`
 
 The completion of these tasks will be decided on the successful completion of the unit tests for both the frontend and the backend.
 
-## Task one
+### Task one
 
-The `/addTeacher` and `addStudent` endpoints are incomplete. Please read this ReadMe file (the api spec is given above), and complete the add teacher and add student endpoints in the backend.
-
-## Task two
-
-The `/deleteStudent` and `deleteTeacher` endpoints are incomplete. The Database connections need to be completed. Please read this ReadMe file (the api spec is given above), and complete the delete student and delete teacher endpoints in the backend.
+The `/deleteStudent` and `deleteTeacher` endpoints are incomplete. Please read this ReadMe file (the api spec is given above), and complete the delete student and delete teacher endpoints.
 
 
-## Task three
+### Task two
 
-In the frontend (user interface), for Student and Teacher tables, the edit functionality is incomplete. Please complete the frontend functionality and implement two endpoints in the backend to `/editStudent` and `/editTeacher`. Feel free to come up with your own API spec (format) for this
+Please read the api spec given above, and create an `addTeacher` endpoint and a `addStudent` endpoints. Both of these should be POST endpoints and should return a 200 response.
