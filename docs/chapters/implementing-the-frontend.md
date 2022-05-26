@@ -1,4 +1,4 @@
-## 4. Implementing the Frontend
+## 3. Implementing the Frontend
 
 In this section we will be implementing the frontend of the `teacher` class and connecting it with the backend features we created.
 
@@ -722,7 +722,7 @@ Now, let's create the 4 methods in `TeacherTableComponent` to get data for the c
 `addNewTeacher` -> Route to add new teacher component.
 `editTeacher` -> Route to add edit teacher component.
 `getTeacherData` -> Get the data of the list of teachers in the system.
-`deleteTeacher` -> Delete the teacher with the id that is passed..
+`deleteTeacher` -> Delete the teacher with the id that is passed.
 
 
 Add these lines of code inside `EditTeacherComponent` 

@@ -2,7 +2,7 @@
 
 Our first task is to implement the `Database Interaction Functions` for the `student` class.
 
-> Refer to [this](/docs/chapters/implementing-the-backend.md#32-creating-the-functions-to-interact-with-the-database) section in the teacher class for further details.
+> Refer to [this](/docs/chapters/implementing-the-backend.md#22-creating-the-functions-to-interact-with-the-database) section in the teacher class for further details.
 
 Tasks to complete:
 1. Create a `readStudents` function to read all student data.

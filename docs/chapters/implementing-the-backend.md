@@ -1,12 +1,12 @@
-## 3. Implementing the Backend
+## 2. Implementing the Backend
 
 Implementing the Backend can be divided into 2 parts.
 
-1. [Generating sample data for the Database](#31-generating-sample-data-for-the-database).
-2. [Creating the functions to interact with the Database](#32-creating-the-functions-to-interact-with-the-database).
-3. [Creating the Backend server](#33-creating-the-backend-server).
+1. [Generating sample data for the Database](#21-generating-sample-data-for-the-database).
+2. [Creating the functions to interact with the Database](#22-creating-the-functions-to-interact-with-the-database).
+3. [Creating the Backend server](#23-creating-the-backend-server).
 
-### 3.1. Generating sample data for the Database
+### 2.1. Generating sample data for the Database
 
 > As mentioned in the [setting up the environment](/docs/chapters/setting-up-the-environment.md) section, we installed `sqlite3` [npm package](https://www.npmjs.com/package/sqlite3) to create the database instance of our application. Now, let's see how we can use that package in our application.
 
@@ -62,7 +62,7 @@ Since, we have now successfully initialized the database and added the dummy dat
 
 > Here, `CRUD operations` refers to `Create`, `Read`, `Update`, and `Delete` operations of the data.
 
-### 3.2. Creating the functions to interact with the Database
+### 2.2. Creating the functions to interact with the Database
 
 In this tutorial we will be guiding you to creating the functions for the `CRUD operations` of the teacher class.
 
@@ -154,9 +154,9 @@ export const deleteTeacher = async id => {
 
 - In SQLite, the SQL query format `DELETE FROM <table_name> WHERE <attribute_1>=<value_1> AND/OR ...` is used for deleting a row from the given table. In the above code the `teacher's id` value is used to identify the row to be deleted from the `teacher` table.
 
-### 3.3. Creating the Backend server
+### 2.3. Creating the Backend server
 
-Inside the `backend` folder we created in the [Generating sample data for the Database](#31-generating-sample-data-for-the-database) section, create a file named `server.js` to manage the Backend server.
+Inside the `backend` folder we created in the [Generating sample data for the Database](#21-generating-sample-data-for-the-database) section, create a file named `server.js` to manage the Backend server.
 
 #### Now let's first import the essentials to run our Backend server.
 
@@ -194,7 +194,7 @@ app.use(bodyParser.json());
 initializeDatabase();
 ```
 
-- This runs the function we described in the [earlier section](#31-generating-sample-data-for-the-database) which adds a set of dummy data into the database.
+- This runs the function we described in the [earlier section](#21-generating-sample-data-for-the-database) which adds a set of dummy data into the database.
 
 #### Next step is to create APIs using the functions we created in the last section.
 
@@ -301,7 +301,7 @@ app.post("/deleteTeacher", async function (req, res) {
 
 - This will pass the `id` value to the `deleteTeacher` method, and eventually it will delete the teacher object from the database with the specified `id` value.
 
-### 3.4. Running the server.
+### 2.4. Running the server.
 
 - When we check the `index.js` file we will the following code snippet
 

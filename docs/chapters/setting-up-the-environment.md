@@ -1,8 +1,8 @@
-## 2. Setting up the environment
+## 1. Setting up the environment
 
 - Before starting to implement the `Student Management System`, we need to set up the required environment for the project. Below sections will guide you to set up the environment. If you have already installed them, you can skip the relevant sections.
 
-### 2.1. Installing Node.js
+### 1.1. Installing Node.js
 
 Check whether `Node.js` and `npm package manager` is already installed by typing the following commands in the command line.
 ```bash
@@ -19,7 +19,7 @@ If the above is not installed, download suitable `Node.js` package for your OS u
 
 > For a guided `Node.js` installation, refer to [4.3 Setup Angular Environment](https://open.uom.lk/mod/hvp/view.php?id=715) in the **Course 4 - Front-End Web Development**
 
-### 2.2. Installing Angular
+### 1.2. Installing Angular
 
 Check whether `Angular CLI` is already installed by typing the following command in the command line.
 ```bash
@@ -33,7 +33,7 @@ If the `Angular CLI` is not installed, install it using the `npm package manager
 npm install -g @angular/cli
 ```
 
-### 2.3. Installing Dependencies
+### 1.3. Installing Dependencies
 
 After completing the above installations, we must install the dependencies specified in the `package.json` files for the `backend` and the `frontend`.
 
