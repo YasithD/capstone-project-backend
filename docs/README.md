@@ -7,8 +7,7 @@
 
 ## Table of Contents
 
-1. [Project description](/docs/chapters/project-description.md).
-2. [Setting up the environment](/docs/chapters/setting-up-the-environment.md).
-3. [Implementing the Backend](/docs/chapters/implementing-the-backend.md).
-4. [Implementing the Frontend](/docs/chapters/implementing-the-frontend.md).
-5. [Project tasks](/docs/chapters/project-tasks.md).
+1. [Setting up the environment](/docs/chapters/setting-up-the-environment.md).
+2. [Implementing the Backend](/docs/chapters/implementing-the-backend.md).
+3. [Implementing the Frontend](/docs/chapters/implementing-the-frontend.md).
+4. [Project tasks](/docs/chapters/project-tasks.md).
