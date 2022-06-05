@@ -2,163 +2,161 @@
 
 Implementing the Backend can be divided into 2 parts.
 
-1. [Generating sample data for the Database](#21-generating-sample-data-for-the-database).
-2. [Creating the functions to interact with the Database](#22-creating-the-functions-to-interact-with-the-database).
-3. [Creating the Backend server](#23-creating-the-backend-server).
+1. [Creating the functions to interact with the Database](#21-creating-the-functions-to-interact-with-the-database).
+2. [Creating the Backend server](#22-creating-the-backend-server).
+3. [Starting the server](#23-starting-the-server)
 
-### 2.1. Generating sample data for the Database
+Since, we successfully added the dummy data during the [Setting up the environment](/docs/chapters/setting-up-the-environment.md) section, let's initialize the database using the `configuration` file provided.
 
-> As mentioned in the [setting up the environment](/docs/chapters/setting-up-the-environment.md) section, we installed `sqlite3` [npm package](https://www.npmjs.com/package/sqlite3) to create the database instance of our application. Now, let's see how we can use that package in our application.
+```javascript
+const dbConnection = require("./sqlite");
 
-In your application's root, create a folder named `backend`. Inside the `backend` folder create a file named `database.js` to implement our database related functionalities.
+dbConnection
+  .getDbConnection()
+  .then((db) => {
+    init(db);
+  })
+  .catch((err) => {
+    console.log(err);
+    throw err;
+  });
 
-First let's `import` the package with the following code.
+let _db;
 
-```js
-import sqlite3 from 'sqlite3';
+function init(db) {
+    _db = db;
+}
+
+const knex_db = require("./db-config");
 ```
 
-Then initialize the database with the following code section.
+#### Code explanation
 
-```js
-const db = new sqlite3.Database(':memory:');
-```
+Using the `sqlite.js` file provided inside the **backend** folder, we import methods from it as `dbConnection`. Using the `getDbConnection` method which is exported in the module, we initialize a database connection.
 
-> The above code returns a new `Database object` and it automatically opens the database. The `filename` argument `":memory:"` passed into the function creates an `anonymous in-memory database` and an `empty string for an anonymous disk-based database`. To get further details about the method, please visit this [link](https://github.com/TryGhost/node-sqlite3/wiki/API#new-sqlite3databasefilename-mode-callback).
 
-Next, let's implement a function to add some dummy data to our database. We will call the function as `initializeDatabase`.
 
-```js
-export const initializeDatabase = () => {
-    db.serialize(function () {
-        // create teacher table and insert dummy records
-        db.run('CREATE TABLE teacher (id INTEGER, name TEXT, age INTEGER)');
-        db.run("INSERT INTO teacher values (10001, 'Kusuma Ranasinghe', 45)");
-        db.run("INSERT INTO teacher values (10002, 'Saman De Silva', 40)");
-        db.run("INSERT INTO teacher values (10003, 'Parasanna Mahagamage', 30)");
-    
-        // create student table and insert dummy records
-        db.run(
-            'CREATE TABLE student (id INTEGER, name TEXT, age INTEGER, religion TEXT)'
-        );
-        db.run(
-            "INSERT INTO student values (20001, 'Supun Mihiranga', 10, 'Buddhist')"
-        );
-        db.run(
-            "INSERT INTO student values (20002, 'Sandun Perera', 9, 'Catholic')"
-        );
-        db.run(
-            "INSERT INTO student values (20003, 'Isuri De Silva', 10, 'Buddhist')"
-        );
-    });
-};
-```
-
-- The SQLite query of the form `CREATE TABLE <table_name> (attribute_1, attribute_2, ...)` is used to create a table in the database. Here, a table named `teacher` and a table named `student` in created separately.
-- The SQLite query of the form `INSERT INTO <table_name> values (value_1, value_2, ...)` is used to insert data to a table in the database. Here, dummy data is inserted into the `teacher` table and the `student` table we created.
-- The `run` method of the `sqlite3 Database` is used to run a SQL query which doesn't retrieve any result data. Use the following [link](https://github.com/TryGhost/node-sqlite3/wiki/API#databaserunsql-param--callback) for further details about the method.
-
-Since, we have now successfully initialized the database and added the dummy data, next let's create the methods for the `CRUD operations` related to the `teacher` class.
+Now, let's create the methods for the `CRUD operations` related to the `teacher` class.
 
 > Here, `CRUD operations` refers to `Create`, `Read`, `Update`, and `Delete` operations of the data.
 
-### 2.2. Creating the functions to interact with the Database
+### 2.1. Creating the functions to interact with the Database
 
 In this tutorial we will be guiding you to creating the functions for the `CRUD operations` of the teacher class.
 
 #### First let's create the function for adding a teacher to the database.
 
 ```js
-export const addTeacher = async (id, name, age) => {
-    return new Promise(function (resolve, reject) {
-        db.all(
-            `INSERT INTO teacher values (${id}, '${name}', ${age})`,
-            function (err, rows) {
-                if (err != null) {
-                    console.log(err);
-                    reject({ status: 'error' });
-                }
-                console.log('Successfully inserted teacher into database');
-                resolve({ status: 'successfully added teacher' });
-            }
-        );
+const addTeacher = async (id, name, age) => {
+    const sql = `INSERT INTO teacher(id,name,age) values (?, ?, ?)`
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [id, name, age])
+            .then(() => {
+                resolve({status: "Successfully inserted Teacher"})
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
-};
+}
 ```
 
 - Here a `Promise` is returned when a `teacher` object is created. A `Promise` object represents the eventual completion (or failure) of an asynchronous operation and its resulting value [[1](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)]. A function can be passed into the `Promise` object with `resolve`, and `reject` methods to be called upon successfully completion or failure respectively.
-- In the above code, when a teacher is successfully added to the database, the `resolve` method will return a `status` message as `"successfully added teacher"`. If any error is occurred during the creation of a teacher, the `reject` method will return a `status` message as `"error"`.
-- The `all` method of the `sqlite3 Database` accepts a SQL query, and can be provided with the `callback function` to be run upon completion. The `callback function` includes parameters `err`, and `rows` which refers to any error occurred during the process and the resulting rows from the database. For further details about the method, refer to the following [link](https://github.com/TryGhost/node-sqlite3/wiki/API#databaseallsql-param--callback).
-
+- In the above code, when a teacher is successfully added to the database, the `resolve` method will return a `status` message as `"Successfully added teacher"`. If any error is occurred during the creation of a teacher, the `reject` method will return the details of the `error` generated.
+- The SQLite query of the form `INSERT INTO <table_name> (attribute_1, attribute_2, ...) VALUES (value_1, value_2, ...)` is used to insert data to a table in the database. Here, the values will be inserted into the table in the order the attributes are specified in the query.
+- The `raw` method of the `Kenx.js` accepts a raw SQL query. To prevent [SQL injection](https://www.w3schools.com/sql/sql_injection.asp) a parameterized query is used. The **Positional Bindings** `?` are interpreted as `values` and `??` are interpreted as `identifiers` in `Knex.js`. The values and identifiers passed as an `array` to the `raw` method will replace the **Positional Bindings** and complete the query string.
 
 #### Secondly let's create the function for Reading the Information of the teachers in the database.
 
 > Let's look at the database function to read/retrieve the teacher data from the database.
 
 ```js
-export const readTeachers = async () => {
-    return new Promise(function (resolve, reject) {
-        db.all('SELECT * FROM teacher', function (err, rows) {
-            if (err != null) {
-                console.log(err);
-                reject({ status: 'error' });
-            }
-            console.log('Successfully fetched teachers from database');
-            resolve(rows);
-        });
+const readTeachers = async () => {
+    const sql = `SELECT * FROM teacher`
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql)
+            .then((teachers) => {
+                resolve(teachers);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
-};
+}
 ```
 
-- In the above code, all the teacher information in the teacher table is retrieved. The `resolve` method will return the database rows of the teacher table. If any error is occurred during the creation of a teacher, the `reject` method will return a `status` message as `"error"`.
+- In the above code, all the teacher information in the teacher table is retrieved. The `resolve` method will return the database rows of the teacher table. If any error is occurred during the creation of a teacher, the `reject` method will return the `error` details.
 - The SQLite query of the form `SELECT * FROM <table_name>` is used to retrieve all the data of a table in the database. Here, `*` is used to retrieve data of all the columns. Alternatively we can specify the column names of which the data should be retrieved.
 
 #### Implementation of retrieving a single teacher object.
 
 ```js
-export const readTeacherInfo = async (id) => {
-    return new Promise(function(resolve,reject) {
-        db.all(`SELECT * FROM teacher WHERE id = ${id}`, function(err, rows) {
-            if(err != null){
-                console.log(err);
-                reject({"status": "error"})
-            }
-            console.log("Successfully fetched teacher info from database");
-            resolve(rows)
-        });
-        
+const readTeacherInfo = async (id) => {
+    const sql = `SELECT * FROM teacher WHERE id = ?`
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [id])
+            .then((teacher) => {
+                resolve(teacher);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
 }
 ```
 
 - The `readTeacherInfo` method accepts an `id` parameter which is referring to the **teacher's id**.
 - The `id` parameter is then used in the SQLite query with a `WHERE` clause to filter the specified teacher among all teachers.
-- Similarly, the `all` method of the `db` will call the callback function passed to it upon completion of the query. If an error occurs it is returned via `err` and if not the results are returned via `rows`.
+- Similarly, if an error occurs it is returned via `reject` method and if not the resulting `rows` are returned via `resolve`.
 
-#### Next, let's implement the function for the delete operation of the teacher class.
+#### Next, let's create a function to update the details of a teacher.
 
-```js
-export const deleteTeacher = async id => {
-    return new Promise(function (resolve, reject) {
-        db.all(`DELETE FROM teacher WHERE id=${id}`, function (err, rows) {
-            if (err != null) {
-                console.log(err);
-                reject({ status: 'error' });
-            }
-            console.log('Successfully deleted teacher from database');
-            resolve({ status: 'successfully deleted teacher' });
-        });
+```javascript
+const updateTeacher = async (name, age, id) => {
+    const sql = `UPDATE teacher SET name=?, age=? WHERE id=?`
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [name, age, id])
+            .then(() => {
+                resolve({status: "Successfully updated Teacher"})
+            })
+            .catch((error) => {
+                reject(error);
+            });
     });
-};
+}
 ```
 
-- In SQLite, the SQL query format `DELETE FROM <table_name> WHERE <attribute_1>=<value_1> AND/OR ...` is used for deleting a row from the given table. In the above code the `teacher's id` value is used to identify the row to be deleted from the `teacher` table.
+- The SQLite query format `UPDATE <table_name> SET attribute_1=value_1, attribute_2=value_2 WHERE id_1=id_value_1, id_2=_id_value_2, ...` is used to update an existing record in the table. Here, we us it to update a details of a teacher.
 
-### 2.3. Creating the Backend server
+#### Finally, let's implement the function for the delete operation of the teacher class.
 
-Inside the `backend` folder we created in the [Generating sample data for the Database](#21-generating-sample-data-for-the-database) section, create a file named `server.js` to manage the Backend server.
+```js
+const deleteTeacher = async (id) => {
+    const sql = `DELETE FROM teacher WHERE id = ?`
+    return new Promise((resolve, reject) => {
+        knex_db
+            .raw(sql, [id])
+            .then(() => {
+                resolve({status: "Successfully deleted Teacher"})
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+```
 
-#### Now let's first import the essentials to run our Backend server.
+- In SQLite, the SQLite query format `DELETE FROM <table_name> WHERE <attribute_1>=<value_1> AND/OR ...` is used for deleting a row from the given table. In the above code the `teacher's id` value is used to identify the row to be deleted from the `teacher` table.
+
+### 2.2. Creating the Backend server
+
+In this section, we will be learning how the `Backend Server` is implemented.
+
+#### Importing the essentials to run our Backend server.
 
 ```js
 import express from "express";
@@ -172,8 +170,8 @@ import {
 } from "./database.js";
 ```
 
-- `Express` is a Node.js framework that provides facilities to run the services we need to initiate the server. We will be creating APIs using `express` and the functions we created in last section. Express provides a robust set of features for web application creation.
-- Middleware are functions that have access to the  request object (req), the response object (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information).
+- `Express` is a Node.js framework that provides facilities to run the services we need to initiate the server. We will be implementing APIs using `express` and the functions we created in [last section](#21-creating-the-functions-to-interact-with-the-database). Express provides a robust set of features for web application creation.
+- Middleware are functions that have access to the  `request object` (req), the `response object` (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information).
 - The next import is the [`body-parser`](https://www.npmjs.com/package/body-parser). It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds and also convert the request body into JS datatype. Read more about [body-parser](https://www.npmjs.com/package/body-parser).
 - The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules).
 
@@ -189,12 +187,6 @@ app.use(bodyParser.json());
 ```
 
 - In this [app.use()](https://expressjs.com/en/guide/using-middleware.html) instructs the express object to use the middlewares passed as parameters. The first middleware passed is the [bodyparser.urlencoded()](http://expressjs.com/en/resources/middleware/body-parser.html) which Returns middleware that only parses urlencoded bodies and [bodyparser.json()](http://expressjs.com/en/resources/middleware/body-parser.html) instructs the request body should be in the json format.
-
-```js
-initializeDatabase();
-```
-
-- This runs the function we described in the [earlier section](#21-generating-sample-data-for-the-database) which adds a set of dummy data into the database.
 
 #### Next step is to create APIs using the functions we created in the last section.
 
@@ -250,6 +242,7 @@ app.post("/getTeacherInfo", async function (req, res) {
 - By triggering this API, a teacher with the specified `teacher_id` will be returned.
 
 ##### 3. API for adding/creating a teacher
+
 ```js
 app.post("/addTeacher", async function (req, res) {
     let reqBody = req.body;
@@ -277,6 +270,7 @@ app.post("/addTeacher", async function (req, res) {
 - By triggering this API, a teacher object will be created in the database with the specified details in the data object of the request.
 
 ##### 4. API for deleting a teacher
+
 ```js
 app.post("/deleteTeacher", async function (req, res) {
     let reqBody = req.body;
@@ -301,7 +295,30 @@ app.post("/deleteTeacher", async function (req, res) {
 
 - This will pass the `id` value to the `deleteTeacher` method, and eventually it will delete the teacher object from the database with the specified `id` value.
 
-### 2.4. Running the server.
+##### 5. API for updating a teacher
+
+```javascript
+app.post("/editTeacher", async function (req, res) {
+  let reqBody = req.body;
+  let data = await updateTeacher(reqBody.name, reqBody.age, reqBody.id);
+
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(data));
+});
+```
+
+- This API is used to update the details of a `teacher` object using the `teacher's id` via a `post` request.
+- By passing the relevant `data` to the `/editTeacher` endpoint via a `post` request, the details of specified teacher will be updated. The `data` object passed to the API will take the following format.
+
+```json
+{
+  "name": "teacher_name",
+  "age": "teacher_age",
+  "id": "teacher_id"
+}
+```
+
+### 2.3. Starting the server.
 
 - When we check the `index.js` file we will the following code snippet
 
