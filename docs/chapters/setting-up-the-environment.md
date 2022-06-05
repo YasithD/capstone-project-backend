@@ -51,3 +51,11 @@ cd frontend
 # Install the dependencies
 npm install
 ```
+
+### 1.4. Database Migration and Seeding
+
+In order to create the necessary `tables` and insert the dummy data for the tables we need to run the following command.
+
+```bash
+npm run db
+```
