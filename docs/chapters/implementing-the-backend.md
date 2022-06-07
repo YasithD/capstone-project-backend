@@ -1,6 +1,6 @@
 ## 2. Implementing the Backend
 
-Implementing the Backend can be divided into 2 parts.
+Implementing the Backend can be divided into 3 parts.
 
 1. [Creating the functions to interact with the Database](#21-creating-the-functions-to-interact-with-the-database).
 2. [Creating the Backend server](#22-creating-the-backend-server).
