@@ -56,6 +56,16 @@ npm install
 
 In order to create the necessary `tables` and insert the `dummy data` for the tables we need to run the following command.
 
+We do this in two steps.
+
+1. The first step is to migrate the database which creates the tables in the database.
+
 ```bash
-npm run db
+npm run migrate
+```
+
+2. The second step is to populate the created tables with dummy data (seed)
+
+```bash
+npm run seed
 ```
