@@ -769,15 +769,34 @@ deleteTeacher(itemid){
 }
 ```
 
+Further lets all so add a function to implement the functionality of searching a teacher from the table.
+
+```typescript
+search(value) {
+    let foundItems = [];
+    if (value.length <= 0) {
+      this.getTeacherData();
+    } else {
+      let b = this.teacherData.filter((teacher) => {
+        if (teacher[0].name.toLowerCase().indexOf(value) > -1) {
+          foundItems.push(teacher)
+        }
+      });
+      this.teacherData = foundItems;
+    }
+  }
+```
+
+This function first checks the length of the keyword given (In this case the the variable `value`) if it's zero (when the page is first loaded it is zero as well) it calls the `getTeacherData` method which gets all the teachers in the database. But if we type a search word in the input we filter the data using `.filter()` to get the relevant rows in the table.
+And at last the filtered values are assigned to `this.teacherData` attribute which is used to populate the table.
+
 The final `teacher-table.component` component should look like this.
 
 ```typescript
-
 import { Component, OnInit } from '@angular/core';
-import { Router,NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
-import {AppServiceService} from '../../app-service.service';
-
+import { AppServiceService } from '../../app-service.service';
 @Component({
   selector: 'app-teacher-table',
   templateUrl: './teacher-table.component.html',
@@ -791,48 +810,62 @@ export class TeacherTableComponent implements OnInit {
   teacherData: any;
   selected: any;
 
-  constructor(private service : AppServiceService, private router: Router) { }
+  constructor(private service: AppServiceService, private router: Router) { }
 
   ngOnInit(): void {
     this.getTeacherData();
   }
 
-  addNewTeacher(){
+  addNewTeacher() {
     this.router.navigate(['addTeacher'])
   }
 
-  editTeacher(id){
+  editTeacher(id) {
     const navigationExtras: NavigationExtras = {
       state: {
-        id : id
+        id: id
       }
     };
-    this.router.navigate(['editTeacher'], navigationExtras )
+    this.router.navigate(['editTeacher'], navigationExtras)
   }
 
-  getTeacherData(){
+  getTeacherData() {
     this.selected = 'Teachers';
-    this.service.getTeacherData().subscribe((response)=>{
-      this.teacherData = response;
-    },(error)=>{
+    this.service.getTeacherData().subscribe((response) => {
+      this.teacherData = Object.keys(response).map((key) => [response[key]]);
+    }, (error) => {
       console.log('ERROR - ', error)
     })
   }
 
-  getStudentData(){
+  getStudentData() {
     this.selected = 'Students';
-    this.service.getStudentData().subscribe((response)=>{
+    this.service.getStudentData().subscribe((response) => {
       this.teacherData = response;
-    },(error)=>{
+    }, (error) => {
       console.log('ERROR - ', error)
     })
   }
 
-  deleteTeacher(itemid){
+  search(value) {
+    let foundItems = [];
+    if (value.length <= 0) {
+      this.getTeacherData();
+    } else {
+      let b = this.teacherData.filter((teacher) => {
+        if (teacher[0].name.toLowerCase().indexOf(value) > -1) {
+          foundItems.push(teacher)
+        }
+      });
+      this.teacherData = foundItems;
+    }
+  }
+
+  deleteTeacher(itemid) {
     const test = {
       id: itemid
     }
-    this.service.deleteTeacher(test).subscribe((response)=>{
+    this.service.deleteTeacher(test).subscribe((response) => {
       this.getTeacherData()
     })
   }
@@ -847,32 +880,41 @@ Copy and paste the following code into the file.
 ```html
 <app-navbar title="Teachers"></app-navbar>
 <div class="add-btn-container">
-  <button (click)="addNewTeacher()" class="btn">Add New &nbsp;<fa-icon [icon]="faPlus"></fa-icon></button>
+  <div class="add-btn-elements-container">
+    <input id="teacher-search" style="height: 20px;" #box (keyup)="search(box.value)" placeholder="Search">
+    <button style="width: 120px; height: 43px; font-size: 14px;" (click)="addNewTeacher()" class="btn">Add New &nbsp;<fa-icon [icon]="faPlus"></fa-icon></button>
+  </div>
 </div>
 <div class="table-container">
-    <table id="teacher-table">
-        <tr>
-          <th>Name</th>
-          <th>Staff ID</th>
-          <th>DOB</th>
-          <th style="width: 50px;"></th>
-          <th style="width: 50px;"></th>
-        </tr>
-        <tr *ngFor="let teacher of teacherData">
-          <td>{{teacher.name}}</td>
-          <td>{{teacher.id}}</td>
-          <td>{{2022 - teacher.age}}</td>
-          <td id="teacher-edit-{{teacher.id}}"(click)="editTeacher(teacher.id)" style="text-align: center;"><fa-icon  class="edit-icon" [icon]="faPenSquare"></fa-icon></td>
-          <td id="teacher-delete-{{teacher.id}}" (click)="deleteTeacher(teacher.id)" style="text-align: center; color: #FC4F4F;"><fa-icon  class="trash-icon" [icon]="faTrash"></fa-icon></td>
-        </tr>
-    
-      </table>
+  <table id="teacher-table">
+    <tr>
+      <th>Name</th>
+      <th>Staff ID</th>
+      <th>DOB</th>
+      <th style="width: 50px;"></th>
+      <th style="width: 50px;"></th>
+    </tr>
+    <tr *ngFor="let teacher of teacherData">
+      <td>{{teacher[0].name}}</td>
+      <td>{{teacher[0].id}}</td>
+      <td>{{2022 - teacher[0].age}}</td>
+      <td id="teacher-edit-{{teacher[0].id}}" (click)="editTeacher(teacher[0].id)" style="text-align: center;">
+        <fa-icon class="edit-icon" [icon]="faPenSquare"></fa-icon>
+      </td>
+      <td id="teacher-delete-{{teacher[0].id}}" (click)="deleteTeacher(teacher[0].id)"
+        style="text-align: center; color: #FC4F4F;">
+        <fa-icon class="trash-icon" [icon]="faTrash"></fa-icon>
+      </td>
+    </tr>
+  </table>
 </div>
 ```
 
 #### Understanding the code
 
 The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Teachers**.
+
+Check the `<input>` tag under the `<div class="add-btn-elements-container">` tag, this controlls the table search functionality, if you enter a value for the input tag it will run (`(keyup)="search(box.value)"`) the function search which was defined in the `teacher-table.component` file.
 
 Next, a `button` is added to add a teacher which on click execute the `addNewTeacher()` function defined in the component file.
 
