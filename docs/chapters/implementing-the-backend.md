@@ -30,11 +30,8 @@ function init(db) {
 const knex_db = require("./db-config");
 ```
 
-#### Code explanation
-
-Using the `sqlite.js` file provided inside the **backend** folder, we import methods from it as `dbConnection`. Using the `getDbConnection` method which is exported in the module, we initialize a database connection.
-
-
+- Using the `sqlite.js` file provided inside the **backend** folder, we import methods from it as `dbConnection`. Then, by using the `getDbConnection` method which is exported in the module, we initialize a database connection and assign it to the `_db` variable.
+- Then the `Knex` module, which is a `SQL Query Builder` will establish a connection to this database using the configuration given at `db-config.js`.  
 
 Now, let's create the methods for the `CRUD operations` related to the `teacher` class.
 
@@ -152,6 +149,18 @@ const deleteTeacher = async (id) => {
 
 - In SQLite, the SQLite query format `DELETE FROM <table_name> WHERE <attribute_1>=<value_1> AND/OR ...` is used for deleting a row from the given table. In the above code the `teacher's id` value is used to identify the row to be deleted from the `teacher` table.
 
+After implementing the `database functions`, we need to `export` them to make sure that other modules have access to them. This can be done via the `module.exports` object.
+
+```javascript
+module.exports = {
+    addTeacher,
+    readTeachers,
+    readTeacherInfo,
+    updateTeacher,
+    deleteTeacher
+}
+```
+
 ### 2.2. Creating the Backend server
 
 In this section, we will be learning how the `Backend Server` is implemented.
@@ -171,7 +180,7 @@ import {
 ```
 
 - `Express` is a Node.js framework that provides facilities to run the services we need to initiate the server. We will be implementing APIs using `express` and the functions we created in [last section](#21-creating-the-functions-to-interact-with-the-database). Express provides a robust set of features for web application creation.
-- Middleware are functions that have access to the  `request object` (req), the `response object` (res), and the next function in the application’s request-response cycle. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information).
+- Middlewares are functions that have access to the  `request object` (req), the `response object` (res), and the next function in the application’s `request-response cycle`. Middlewares are mainly used to reformat request object, response object or handle multimedia request (check on [Multer](https://www.npmjs.com/package/multer) for more information).
 - The next import is the [`body-parser`](https://www.npmjs.com/package/body-parser). It is a Node.js middleware which will parse the incoming request bodies before getting to the handlers. This is essential for validating the inputs received before the request proceeds and also convert the request body into JS datatype. Read more about [body-parser](https://www.npmjs.com/package/body-parser).
 - The next set of imports are the functions we created in the `database.js` file which contains the functions we created and described above. In JavaScript and in many other programming languages the functions defined in a different file should be imported first before using this in another file. A such code containing file is called a Module. Read more about [Modules](https://www.freecodecamp.org/news/javascript-modules-explained-with-examples/#:~:text=A%20module%20in%20JavaScript%20is,object%20accessible%20to%20other%20modules).
 
@@ -179,7 +188,7 @@ import {
 const app = express();
 ```
 
-- This creates the express framework object which is used to initialize our server. Read more on [express()](https://expressjs.com/en/api.html)
+- This creates the express framework object which is used to initialize our server. Read more on [express()](https://expressjs.com/en/api.html).
 
 ```js
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -318,6 +327,12 @@ app.post("/editTeacher", async function (req, res) {
 }
 ```
 
+After implementing the APIs, we need to export the `express app` to make sure other modules can access it. This can be done similary to how we exported the `database functions` in the [above section](#21-creating-the-functions-to-interact-with-the-database).
+
+```javascript
+module.exports = app;
+```
+
 ### 2.3. Starting the server.
 
 - When we check the `index.js` file we will the following code snippet
@@ -339,3 +354,7 @@ server.listen(8080, function () {
 ```bash
 npm start
 ```
+
+> If you need to stop the server from running press,
+> 1. Windows: `CONTROL` + `C`.
+> 2. Mac: `COMMAND` + `C`.
