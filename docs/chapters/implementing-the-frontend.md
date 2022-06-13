@@ -8,31 +8,20 @@ Below sections will guide you sequentially on how to implement the frontend of t
 
 A component shouldn't fetch data from the server directly. It should only know how to present the fetched data. To decouple fetching the data and presenting the data, `Angular` uses `Services`. Services act as an intermediate layer between the frontend and the backend.
 
-In the [Implementing the Backend](/docs/chapters/implementing-the-backend.md) section, we created APIs for the `CRUD` operations of the Teacher class. Now, let's create a service to access those APIs.
+In the [Implementing the Backend](/docs/chapters/implementing-the-backend.md) section, we created APIs for the `CRUD` operations of the Teacher class. Now, let's use the service file given in the `Capstone Project Template` to understand how the necessary services are implemented.
 
-To create a `Angular Service`, we can use the `Angular CLI`. Type the following command in the terminal to create the `Service`.
+> If you want to create a `Angular Service` from the scratch, we can use the `Angular CLI`. Type the following command in the terminal to create the `Service`.
+>```bash
+>ng generate service app-service
+>```
 
-```bash
-ng generate service app-service
-```
-
-Now, in your `src/app` directory, look out for a file named `app-service.service.ts` and open it. Let's add the additional code to the `Service` to implement the necessary services.
-
-First, start by importing the `HttpClient` module from `@angular/common/http`.
-
-```typescript
-import { HttpClient } from '@angular/common/http';
-```
+Now, in your `src/app` directory, look out for a file named `app-service.service.ts` and open it. Let's try to understand the given code.
 
 The `@Injectable` decorator is responsible for marking the `AppServiceService` class as a class that participates in the **[dependency injection system](https://angular.io/guide/dependency-injection)**. The metadata `providedIn: 'root'` registers a provider with the *root injector* for the service. That means the service will be provided at root level and `Angular` creates a single instance of the object which shared with any class that asks for it.
 
-Now, inside the `AppServiceService` class, add a **readonly** variable called `ROOT_URL` to specify the **root/base URL** of the backend.
+The **readonly** variable called `ROOT_URL` is used to specify the **root/base URL** of the backend.
 
-```typescript
-readonly ROOT_URL;
-```
-
-In the constructor add a private `HttpClien` instance called `http` and set the `ROOT_URL` to the base URL of the backend. In our case, `http://localhost:8080`.
+In the constructor a private `HttpClient` instance called `http` added and the `ROOT_URL` is set to the base URL of the backend. In our case, `http://localhost:8080`.
 
 ```typescript
 constructor(private http: HttpClient) {
@@ -40,7 +29,7 @@ constructor(private http: HttpClient) {
 }
 ```
 
-The next task is to implement the functions to call the APIs of the backend. Let's start by creating a function to retrieve teachers.
+The next task is to implement the functions to call the APIs of the backend. Let's start by understanding the function to retrieve teachers.
 
 #### 1. Retrieve Teachers
 
@@ -60,6 +49,8 @@ getOneTeacherData(payload: Object) {
 }
 ```
 
+> The `post` method of the `HttpClient` module is used here as we use a `POST` request to get information of a particular teacher. The necessary data for the request is passed as an `javascript object` to this method.
+
 #### 3. Adding a Teacher
 
 ```typescript
@@ -73,42 +64,6 @@ addTeacher(payload: Object) {
 ```typescript
 deleteTeacher(payload: Object) {
     return this.http.post('/api/deleteTeacher', payload)
-}
-```
-
-The finalized `app-service` service should look like this.
-
-```typescript
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AppServiceService {
-
-  readonly ROOT_URL;
-
-  constructor(private http: HttpClient) {
-    this.ROOT_URL = 'http://localhost:8080'
-  }
-
-  getTeacherData(){
-    return this.http.get('/api/listTeachers')
-  }
-
-  getOneTeacherData(payload: Object){
-    return this.http.post('/api/getTeacherInfo', payload)
-  }
-
-  addTeacher(payload: Object){
-    return this.http.post('/api/addTeacher', payload)
-  }
-
-  deleteTeacher(payload: Object){
-    return this.http.post('/api/deleteTeacher', payload)
-  }
-  
 }
 ```
 
