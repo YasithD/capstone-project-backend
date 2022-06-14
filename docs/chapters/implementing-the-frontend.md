@@ -317,6 +317,12 @@ a{
 
 ### Components
 
+Generate a new component using the following command. replace `[name]` with your components name
+
+```bash
+ng generate component [name]
+```
+
 #### 1. Add new Teacher
 
 The component `add-new-teacher` can be found in the `src/app/components` directory. It contains 4 files. Open the `add-new-teacher.component.ts` file.
