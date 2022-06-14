@@ -11,11 +11,11 @@ A component shouldn't fetch data from the server directly. It should only know h
 In the [Implementing the Backend](/docs/chapters/implementing-the-backend.md) section, we created APIs for the `CRUD` operations of the Teacher class. Now, let's use the service file given in the `Capstone Project Template` to understand how the necessary services are implemented.
 
 > If you want to create a `Angular Service` from the scratch, we can use the `Angular CLI`. Type the following command in the terminal to create the `Service`.
->```bash
->ng generate service app-service
->```
+> ```bash
+> ng generate service app-service
+> ```
 
-Now, in your `src/app` directory, look out for a file named `app-service.service.ts` and open it. Let's try to understand the given code.
+In your `src/app` directory, look out for a file named `app-service.service.ts` and open it. Let's try to understand the given code.
 
 The `@Injectable` decorator is responsible for marking the `AppServiceService` class as a class that participates in the **[dependency injection system](https://angular.io/guide/dependency-injection)**. The metadata `providedIn: 'root'` registers a provider with the *root injector* for the service. That means the service will be provided at root level and `Angular` creates a single instance of the object which shared with any class that asks for it.
 
@@ -67,15 +67,24 @@ deleteTeacher(payload: Object) {
 }
 ```
 
+#### 5. Updating the details of a Teacher
+
+```typescript
+editTeacher(payload: Object){
+    return this.http.post('/api/editTeacher', payload)
+}
+```
+
 ### Routing
 
 Routing is the mechanism that is used to tell the browser what to load when a specific **URL** is called. This is essential in any website that has multiple UIs (*User Interfaces*).
 
-`Angular` provides an in-built routing module called the `RouterModule`, which is used to handle the routing of the frontend. Create a **router** named `app-routing` for our frontend using the `Angular CLI` by typing the following command.
-```bash
-ng generate module app-routing --flat --module=app
-```
+`Angular` provides an in-built routing module called the `RouterModule`, which is used to handle the routing of the frontend. 
 
+> To create a **router** named `app-routing` from the scratch via the `Angular CLI`, type the following command.
+> ```bash
+> ng generate module app-routing --flat --module=app
+> ```
 > Here, the additional parameters,
 >
 > 1. `--flat` - Puts the file in `src/app` instead of its own folder.
@@ -83,7 +92,7 @@ ng generate module app-routing --flat --module=app
 >
 > For, further details on routing in `Angular`, visit the following [link](https://angular.io/guide/routing-overview).
 
-Once the `app-routing` is created, you will find a **TypeScript** file named `app-routing.module.ts` in your `src/app` directory. It will contain a routing template. Replace the template with the following code.
+The `app-routing` **router** of the Capstone Project is in a **TypeScript** file named `app-routing.module.ts` in your `src/app` directory. It will contain the following routing template.
 
 ```typescript
 import { NgModule } from '@angular/core';
@@ -138,19 +147,15 @@ After creating the `Router`, replace all the code in `app.component.html` which 
 <router-outlet></router-outlet>
 ```
 
-The selector for the `Router` is `router-outlet`. Now in the `app` component, the `Router` will be loaded when the `app` is served. 
+The selector for the `Router` is `router-outlet`. Now in the `app.component.html` template, the `Router` will be loaded when the `app` is served. 
 
 ### Navigation
 
-In this section we will create a navigation panel for our frontend. It will help a user to navigate between `Teachers`, and `Students`. Start by creating an **Angular Component** `navbar` using the **Angular CLI**.
-
-```bash
-ng generate component navbar
-```
+In this section we will try to understand the functionality of navigation panel for our frontend. It will help a user to navigate between `Teachers`, and `Students`.
 
 Now, navigate to the `navbar.component.ts` file in the `components/navbar` directory.
 
-First, import the `Router` component we exported in the [Routing](#routing) section.
+The `Router` component we exported in the [Routing](#routing) section is now imported.
 
 ```typescript
 import { Router } from '@angular/router';
@@ -158,51 +163,27 @@ import { Router } from '@angular/router';
 
 We will be using this `navbar` component to display the `Title` of the page as well. Due to that we should make the component able to receive the `title` as an `input` from its parent. Nothing will be sent from the component to its parent. This is called `one-way data binding` and `Angular` uses a decorator called `@Input` for this purpose.
 
-First, import the `@Input` decorator from `@angular/core`. Use the same object used to import `Component` and `OnInit` to import `Input`. 
+To access this feature, the `@Input` decorator is imported from the `@angular/core`.
 
 ```typescript
 import { Component, OnInit, Input } from '@angular/core';
 ```
 
-Inside the `NavbarComponent` include the `@Input` decorator and give it a `title` variable of type `string`.
+Inside the `NavbarComponent` the `@Input` decorator is added, and a `title` variable of type `string` defined.
 
 ```typescript
 @Input() title: string;
 ```
 
-Finally, inside the `constructor` of the component, pass the `Router` so it can be accessed by the component for navigation.
+Finally, inside the `constructor` of the component, the `Router` passed so it could be accessed by the component for navigation.
 
 ```typescript
 constructor(  private router: Router) { }
 ```
 
-The finalized file should look like this.
-
-```typescript
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
-})
-export class NavbarComponent implements OnInit {
-
-  @Input()
-  title: string;
-
-  constructor(  private router: Router) { }
-
-  ngOnInit(): void {
-  }
-
-}
-```
-
 Now, open the `navbar.component.html` file located inside the `navbar` directory.
 
-Copy and paste the following code to the file.
+You would see some `html` code similar to this.
 
 ```html
 <div class="navbar-container">
@@ -239,82 +220,6 @@ First, the logo is added to the *navbar-container*. The *links-container* includ
 
 In the *info-container* we display the `title` received using the `{{ title }}` syntax.
 
-Now, open the `navbar.component.css` file located in the `navbar` directory.
-
-Copy and paste the following CSS styles for the classed specified in the HTML template.
-
-```css
-.navbar-container{
-    width: 100%;
-    height: 120px;
-    background-color: #272928;
-    display: flex;
-}
-
-.logo-container{
-    width: 33%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.blank-space{
-    width: 33%;
-}
-
-.links-container{
-    width: 33%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 30px;
-    font-weight: 100;
-}
-
-a{
-    font-size: 22px;
-    margin: 20px;
-    color: white;
-    font-weight: 300;
-}
-
-.bold{
-    font-weight: 400;
-}
-
-.logout{
-    font-weight: 200;
-}
-
-.info-container{
-    background-color: #EEEEEE;
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-
-}
-
-.info-text-container{
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 6%;
-   
-}
-
-.info-text{
-    font-size: 32px;
-    font-weight: 500;
-    letter-spacing: -2px;
-}
-```
-
 ### Components
 
 #### 1. Add new Teacher
@@ -325,19 +230,37 @@ The file content will look like this.
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
+import {AppServiceService} from '../../app-service.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-add-new-teacher',
-  templateUrl: './add-new-teacher.component.html',
-  styleUrls: ['./add-new-teacher.component.css']
+    selector: 'app-add-new-teacher',
+    templateUrl: './add-new-teacher.component.html',
+    styleUrls: ['./add-new-teacher.component.css']
 })
 export class AddNewTeacherComponent implements OnInit {
 
-  constructor() { }
+    constructor(private service : AppServiceService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
-  
+    ngOnInit(): void {
+    }
+
+    createTeacher(value){
+
+        const teacher = {
+            id : value.id,
+            name : value.name,
+            age : value.age
+        }
+
+
+        this.service.addTeacher(teacher).subscribe((response)=>{
+            this.router.navigate([''])
+        },(error)=>{
+            console.log('ERROR - ', error)
+        })
+    }
+
 }
 ```
 
@@ -347,24 +270,16 @@ Here, inside the `@Component` decorator there are some fields defined. Let's go 
 2. **templateUrl** - The location of the component's template file.
 3. **styleUrls** - The location of the component's private CSS styles.
 
-Now let's add the additional content to implement functionality of the `add-new-teacher` component.
+Now let's understand the remaining content to implement the functionality of the `add-new-teacher` component.
 
-First let's import the necessary modules for the component. Add the following lines of code the imports.
-
-```typescript
-import { AppServiceService } from '../../app-service.service';
-import { Router } from '@angular/router';
-```
-
-Now let's add the necessary parameters to the constructor of the `AddNewTeacherComponent`.
+Let's understand the constructor of the `AddNewTeacherComponent`.
 
 ```typescript
 constructor(private service : AppServiceService, private router: Router) { }
 ```
-
 - Here we are passing the `AppServiceService` we exported under the section [Services](#services) as a private `service` instance. Also, we are passing a `Router` we exported in the section [Routing](#routing) as a private `router` instance.
 
-Next, let's create a method to create a teacher. Add the following line of code inside `AddNewTeacherComponent`.
+Next, let's understand the method to create a teacher. Add the following line of code inside `AddNewTeacherComponent`.
 
 ```typescript
 createTeacher(value) {
@@ -391,49 +306,9 @@ By using the `AppServiceService` instance `service` passed into the constructor,
 
 The `subscribe` method first catches the `response` of the server if the request is successful. Then using the `router` it navigates to the `''` route (*home page*) upon a successful `post` request.
 
-If an **error** occurs during the request, the `error` is caught using the next callback function. In the code it is logged into the console. 
-
-The final `add-new-teacher.component` component should look like this.
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-import {AppServiceService} from '../../app-service.service';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'app-add-new-teacher',
-  templateUrl: './add-new-teacher.component.html',
-  styleUrls: ['./add-new-teacher.component.css']
-})
-export class AddNewTeacherComponent implements OnInit {
-
-  constructor(private service : AppServiceService, private router: Router) { }
-
-  ngOnInit(): void {
-  }
-
-  createTeacher(value){
-
-    const teacher = {
-      id : value.id,
-      name : value.name,
-      age : value.age
-    }
-
-
-    this.service.addTeacher(teacher).subscribe((response)=>{
-      this.router.navigate([''])
-    },(error)=>{
-      console.log('ERROR - ', error)
-    })
-  }
-
-}
-```
+If an **error** occurs during the request, the `error` is caught using the next callback function. In the code it is logged into the console.
 
 Next, let's take look at the HTML template of the `add-new-teacher` component. In the `add-new-teacher` directory, look out for a file named `add-new-teacher.component.html` and open it.
-
-Copy and paste the following code into the file.
 
 ```html
 <app-navbar title="Add New Teacher"></app-navbar>
@@ -453,138 +328,95 @@ The `navbar` component created in the [Navigation](#navigation) section have bee
 
 Next, a `form` HTML element is added to submit the data given provided by the user.
 
-
-
-Now let's add the necessary `CSS` for the HTML template. Open the `add-new-teacher.component.css` file and paste the following CSS styles.
-
-```css
-.form-container{
-    padding-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-```
-
-This code will style our component
-
 #### 2. Edit Teacher
 
 The component `edit-teacher` can be found in the `src/app/components` directory. It contains 4 files. Open the `edit-teacher.component.ts` file.
 
-```js
+```typescript
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import {AppServiceService} from '../../app-service.service';
 
 @Component({
-  selector: 'app-edit-teacher',
-  templateUrl: './edit-teacher.component.html',
-  styleUrls: ['./edit-teacher.component.css']
+    selector: 'app-edit-teacher',
+    templateUrl: './edit-teacher.component.html',
+    styleUrls: ['./edit-teacher.component.css']
 })
 export class EditTeacherComponent implements OnInit {
+    
+    teacherData: any;
+    
+    constructor(private service : AppServiceService, private router: Router) { }
 
-
-  teacherData: any;
-
-
-  constructor(private service : AppServiceService, private router: Router) { }
-
-  navigation = this.router.getCurrentNavigation();
-
-  ngOnInit(): void {
-    this.getTeacherData();
-  }
+    navigation = this.router.getCurrentNavigation();
+    
+    ngOnInit(): void {
+        this.getTeacherData();
+    }
+    
+    getTeacherData(){
+        let teacher = {
+            id : this.navigation.extras.state.id
+        }
+        this.service.getOneTeacherData(teacher).subscribe((response)=>{
+            this.teacherData = response[0];
+        },(error)=>{
+            console.log('ERROR - ', error)
+        })
+    }
+    
+    editTeacher(values){
+        values.id = this.navigation.extras.state.id;
+        this.service.editTeacher(values).subscribe((response)=>{
+            this.teacherData = response[0];
+        },(error)=>{
+            console.log('ERROR - ', error)
+        })
+    }
 
 }
 ```
 
-The initial code segments as similar to the ones explained in the previous [component](#1-add-new-teacher).
-
-The only Difference is the the code segment
+Let's first check the `ngOnInit` method.
 
 ```js
 ngOnInit(): void {
     this.getTeacherData();
-  }
+}
 ```
 
-Which instructs the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
+This will instruct the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
 
 Now, let's create the two methods to get the teachers details which is named `getTeacherData` and a method to edit the Teacher data named `editTeacher`.
 
-Add these lines of code inside `EditTeacherComponent` 
-
 ```typescript
-  getTeacherData(){
+getTeacherData(){
     let teacher = {
-      id : this.navigation.extras.state.id
+        id : this.navigation.extras.state.id
     }
     this.service.getOneTeacherData(teacher).subscribe((response)=>{
-      this.teacherData = response[0];
+        this.teacherData = response[0];
     },(error)=>{
-      console.log('ERROR - ', error)
+        console.log('ERROR - ', error)
     })
-  }
+}
 
-  editTeacher(values){
-    console.log("Still hasn't been Implemented")
-  }
+editTeacher(values){
+    values.id = this.navigation.extras.state.id;
+    this.service.editTeacher(values).subscribe((response)=>{
+        this.teacherData = response[0];
+    },(error)=>{
+        console.log('ERROR - ', error)
+    })
+}
 ```
 Here, firstly considering the function `getTeacherData` we get the id of the teacher from the state object saved on the navigation.
 
-By using the `AppServiceService` instance `service` passed into the constructor, the `getOneTeacherData` method of the service is called. The `subscribe` method is used to receive the data **asynchronously** and update the website.
+By using the `AppServiceService` instance `service` passed into the constructor, the `getOneTeacherData` method of the service is called. The `subscribe` method is used to receive the data **asynchronously**.
 
-The final `edit-teacher.component` component should look like this.
-
-```typescript
-
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
-import {AppServiceService} from '../../app-service.service';
-
-@Component({
-  selector: 'app-edit-teacher',
-  templateUrl: './edit-teacher.component.html',
-  styleUrls: ['./edit-teacher.component.css']
-})
-export class EditTeacherComponent implements OnInit {
-
-
-  teacherData: any;
-
-
-  constructor(private service : AppServiceService, private router: Router) { }
-
-  navigation = this.router.getCurrentNavigation();
-
-  ngOnInit(): void {
-    this.getTeacherData();
-  }
-
-  getTeacherData(){
-    let teacher = {
-      id : this.navigation.extras.state.id
-    }
-    this.service.getOneTeacherData(teacher).subscribe((response)=>{
-      this.teacherData = response[0];
-    },(error)=>{
-      console.log('ERROR - ', error)
-    })
-  }
-
-  editTeacher(values){
-    console.log("Still hasn't been Implemented")
-  }
-
-}
-
-```
+Next, using the `editTeacher` method we will update the details of a given teacher. Using the `editTeacher` method the service is called.
 
 Next, let's take look at the HTML template of the `edit-teacher` component. In the `edit-teacher` directory, look out for a file named `edit-teacher.component.html` and open it.
-
-Copy and paste the following code into the file.
 
 ```html
 <app-navbar title="Edit Teacher Details"></app-navbar>
@@ -599,70 +431,98 @@ Copy and paste the following code into the file.
 
 #### Understanding the code
 
-The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Edit Teacher Details**.
+The `navbar` component have been added at the top of the code with setting the `title` to **Edit Teacher Details**.
 
 Next, a `form` HTML element is added to submit the data given provided by the user.
 
-In the form data the `value` option is filled with the data recieved by the `getTeacherData` function which is the `teacherData` object.
+In the form data the `value` option is filled with the data received by the `getTeacherData` function which is the `teacherData` object.
 
-
-Now let's add the necessary `CSS` for the HTML template. Open the `edit-teacher.component.css` file and paste the following CSS styles.
-
-```css
-.form-container{
-    padding-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-```
-
-This code will style our component
-
-#### 2. Teacher Table
+#### 3. Teacher Table
 
 The component `teacher-table` can be found in the `src/app/components` directory. It contains 4 files. Open the `teacher-table.component.ts` file.
 
-```js
+```typescript
 import { Component, OnInit } from '@angular/core';
-import { Router,NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
-import {AppServiceService} from '../../app-service.service';
-
+import { AppServiceService } from '../../app-service.service';
 @Component({
-  selector: 'app-teacher-table',
-  templateUrl: './teacher-table.component.html',
-  styleUrls: ['./teacher-table.component.css']
+    selector: 'app-teacher-table',
+    templateUrl: './teacher-table.component.html',
+    styleUrls: ['./teacher-table.component.css']
 })
+
 export class TeacherTableComponent implements OnInit {
 
-  faTrash = faTrash;
-  faPlus = faPlus;
-  faPenSquare = faPenSquare;
-  teacherData: any;
-  selected: any;
+    faTrash = faTrash;
+    faPlus = faPlus;
+    faPenSquare = faPenSquare;
+    teacherData: any;
+    selected: any;
 
-  constructor(private service : AppServiceService, private router: Router) { }
+    constructor(private service: AppServiceService, private router: Router) { }
 
-  ngOnInit(): void {
-    this.getTeacherData();
-  }
+    ngOnInit(): void {
+        this.getTeacherData();
+    }
+
+    addNewTeacher() {
+        this.router.navigate(['addTeacher'])
+    }
+
+    editTeacher(id) {
+        const navigationExtras: NavigationExtras = {
+            state: {
+                id: id
+            }
+        };
+        this.router.navigate(['editTeacher'], navigationExtras)
+    }
+
+    getTeacherData() {
+        this.selected = 'Teachers';
+        this.service.getTeacherData().subscribe((response) => {
+            this.teacherData = Object.keys(response).map((key) => [response[key]]);
+        }, (error) => {
+            console.log('ERROR - ', error)
+        })
+    }
+
+    getStudentData() {
+        this.selected = 'Students';
+        this.service.getStudentData().subscribe((response) => {
+            this.teacherData = response;
+        }, (error) => {
+            console.log('ERROR - ', error)
+        })
+    }
+
+    search(value) {
+
+    }
+
+    deleteTeacher(itemid) {
+        const test = {
+            id: itemid
+        }
+        this.service.deleteTeacher(test).subscribe((response) => {
+            this.getTeacherData()
+        })
+    }
+}
 ```
 
-The initial code segments as similar to the ones explained in the previous [component](#1-add-new-teacher).
-
-The Differences is the the code segment
+Let's now take a look at the `ngOnInit` method of the `Angular Component`.
 
 ```js
 ngOnInit(): void {
     this.getTeacherData();
-  }
+}
 ```
 
-Which instructs the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
+This instructs the component to run the function `getTeacherData` (which must be defined and explained below) during the initialization of the component.
 
-```js
+```typescript
 import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 
 faTrash = faTrash;
@@ -672,165 +532,16 @@ faPenSquare = faPenSquare;
 
 `faTrash`, `faPlus` and `faPenSqure` are icons that are imported from fontawesome package, these icons are used in the `teacher-table.component.html` file.
 
-Now, let's create the 4 methods in `TeacherTableComponent` to get data for the component and route to specific functions on the system.
+Now, let's take a look at the 4 methods in `TeacherTableComponent` to get data for the component and route to specific functions on the system.
 
-`addNewTeacher` -> Route to add new teacher component.
-`editTeacher` -> Route to add edit teacher component.
-`getTeacherData` -> Get the data of the list of teachers in the system.
-`deleteTeacher` -> Delete the teacher with the id that is passed.
+- `addNewTeacher` -> Route to add new teacher component.
+- `editTeacher` -> Route to add edit teacher component.
+- `getTeacherData` -> Get the data from the list of teachers in the system.
+- `deleteTeacher` -> Delete the teacher with the id that is passed.
 
-
-Add these lines of code inside `EditTeacherComponent` 
-
-```typescript
-addNewTeacher(){
-  this.router.navigate(['addTeacher'])
-}
-
-editTeacher(id){
-  const navigationExtras: NavigationExtras = {
-    state: {
-      id : id
-    }
-  };
-  this.router.navigate(['editTeacher'], navigationExtras )
-}
-
-getTeacherData(){
-  this.selected = 'Teachers';
-  this.service.getTeacherData().subscribe((response)=>{
-    this.teacherData = response;
-  },(error)=>{
-    console.log('ERROR - ', error)
-  })
-}
-
-getStudentData(){
-  this.selected = 'Students';
-  this.service.getStudentData().subscribe((response)=>{
-    this.teacherData = response;
-  },(error)=>{
-    console.log('ERROR - ', error)
-  })
-}
-
-deleteTeacher(itemid){
-  const test = {
-    id: itemid
-  }
-  this.service.deleteTeacher(test).subscribe((response)=>{
-    this.getTeacherData()
-  })
-}
-```
-
-Further lets all so add a function to implement the functionality of searching a teacher from the table.
-
-```typescript
-search(value) {
-    let foundItems = [];
-    if (value.length <= 0) {
-      this.getTeacherData();
-    } else {
-      let b = this.teacherData.filter((teacher) => {
-        if (teacher[0].name.toLowerCase().indexOf(value) > -1) {
-          foundItems.push(teacher)
-        }
-      });
-      this.teacherData = foundItems;
-    }
-  }
-```
-
-This function first checks the length of the keyword given (In this case the the variable `value`) if it's zero (when the page is first loaded it is zero as well) it calls the `getTeacherData` method which gets all the teachers in the database. But if we type a search word in the input we filter the data using `.filter()` to get the relevant rows in the table.
-And at last the filtered values are assigned to `this.teacherData` attribute which is used to populate the table.
-
-The final `teacher-table.component` component should look like this.
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
-import { faTrash, faPlus, faPenSquare } from '@fortawesome/free-solid-svg-icons';
-import { AppServiceService } from '../../app-service.service';
-@Component({
-  selector: 'app-teacher-table',
-  templateUrl: './teacher-table.component.html',
-  styleUrls: ['./teacher-table.component.css']
-})
-export class TeacherTableComponent implements OnInit {
-
-  faTrash = faTrash;
-  faPlus = faPlus;
-  faPenSquare = faPenSquare;
-  teacherData: any;
-  selected: any;
-
-  constructor(private service: AppServiceService, private router: Router) { }
-
-  ngOnInit(): void {
-    this.getTeacherData();
-  }
-
-  addNewTeacher() {
-    this.router.navigate(['addTeacher'])
-  }
-
-  editTeacher(id) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        id: id
-      }
-    };
-    this.router.navigate(['editTeacher'], navigationExtras)
-  }
-
-  getTeacherData() {
-    this.selected = 'Teachers';
-    this.service.getTeacherData().subscribe((response) => {
-      this.teacherData = Object.keys(response).map((key) => [response[key]]);
-    }, (error) => {
-      console.log('ERROR - ', error)
-    })
-  }
-
-  getStudentData() {
-    this.selected = 'Students';
-    this.service.getStudentData().subscribe((response) => {
-      this.teacherData = response;
-    }, (error) => {
-      console.log('ERROR - ', error)
-    })
-  }
-
-  search(value) {
-    let foundItems = [];
-    if (value.length <= 0) {
-      this.getTeacherData();
-    } else {
-      let b = this.teacherData.filter((teacher) => {
-        if (teacher[0].name.toLowerCase().indexOf(value) > -1) {
-          foundItems.push(teacher)
-        }
-      });
-      this.teacherData = foundItems;
-    }
-  }
-
-  deleteTeacher(itemid) {
-    const test = {
-      id: itemid
-    }
-    this.service.deleteTeacher(test).subscribe((response) => {
-      this.getTeacherData()
-    })
-  }
-}
-
-```
+> Here the `search` function is not implemented. As a task of the Capstone Project you need to implement the logic to `search` a teacher by a given text field. You should initialize and update the `teacherData` array with the searched results.
 
 Next, let's take look at the HTML template of the `teacher-table` component. In the `teacher-table` directory, look out for a file named `teacher-table.component.html` and open it.
-
-Copy and paste the following code into the file.
 
 ```html
 <app-navbar title="Teachers"></app-navbar>
@@ -867,163 +578,12 @@ Copy and paste the following code into the file.
 
 #### Understanding the code
 
-The `navbar` component created in the [Navigation](#navigation) section have been added at the top of the code with setting the `title` to **Teachers**.
+The `navbar` component have been added at the top of the code with setting the `title` to **Teachers**.
 
-Check the `<input>` tag under the `<div class="add-btn-elements-container">` tag, this controlls the table search functionality, if you enter a value for the input tag it will run (`(keyup)="search(box.value)"`) the function search which was defined in the `teacher-table.component` file.
+Check the `<input>` tag under the `<div class="add-btn-elements-container">` tag. This controls the table search functionality. If you enter a value for the input tag it will run the `search(box.value)` function which will search the teachers using the passed text.
 
 Next, a `button` is added to add a teacher which on click execute the `addNewTeacher()` function defined in the component file.
 
 Note the usage of `faTrash`,`faPlus` and `faPenSquare` which are the imported icons from the awesome package mentioned above. 
 
 Next, a `table`,`<tr>` and `<td>`  HTML elements are used to create a table and `*ngFor="let teacher of teacherData"` is used to loop over teacherData where each item is accessed as teacher variable during the loop. the teacher variable is used to access the row data.
-
-Now let's add the necessary `CSS` for the HTML template. Open the `teacher-table.component.css` file and paste the following CSS styles.
-
-```css
-table {
-    font-family: 'Poppins', sans-serif;
-    border-collapse: collapse;
-    width: 75%;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  }
-  
-  td, th {
-    /* border: 0.01px solid #dddddd; */
-    text-align: left;
-    padding: 8px;
-  }
-  
-  /* tr:nth-child(even) {
-    background-color: #dddddd;
-  } */
-
-  th{
-    font-size: 16px;
-    background-color: #dddddd;
-  }
-
-  tr{
-    font-size: 14px;
-    background-color: white;
-  }
-
-.table-container{
-    padding: 0px 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.trash-icon{
-  font-size: 16px;
-  margin-left: -75px;
-}
-
-.trash-icon:hover{
-  cursor: pointer;
-  color: #f44009;
-}
-
-.add-btn-container{
-  padding: 20px 220px;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-}
-
-.btn{
-  /* width: 70px; */
-  height: 30px;
-  font-size: 12px;
-  border-radius: 5px;
-}
-
-.navbar-container{
-  width: 100%;
-  height: 120px;
-  background-color: #272928;
-  display: flex;
-}
-
-.logo-container{
-  width: 33%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* border-color: white;
-  border-style: solid; */
-}
-
-.blank-space{
-  width: 33%;
-
-  /* border-color: white;
-  border-style: solid; */
-}
-
-.links-container{
-  width: 33%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 30px;
-  font-weight: 100;
-
-  /* border-color: white;
-  border-style: solid; */
-}
-
-a{
-  font-size: 22px;
-  margin: 20px;
-  color: white;
-  font-weight: 500;
-}
-
-.logout{
-  font-weight: 200;
-}
-
-.info-container{
-  background-color: #EEEEEE;
-  height: 100px;
-  width: 100%;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-
-}
-
-.info-text-container{
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 6%;
- 
-}
-
-.edit-icon{
-  font-size: 20px;
-  margin-left: -75px;
-  color: #5c625f;
-}
-
-.edit-icon:hover{
-  cursor: pointer;
-  color: #212322;
-}
-
-.info-text{
-  font-size: 32px;
-  font-weight: 500;
-  letter-spacing: -2px;
-}
-```
-
-`:hover` tag will apply the css styling when mouse pointer hovers over the element
