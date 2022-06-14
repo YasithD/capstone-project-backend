@@ -74,12 +74,12 @@ npm run seed
 
 To maintain the Capstone Project code, we will be using a **distributed version control system** called `git`.
 
-- To check whether you have already installed `git`, use the following command in a terminal.
+- To check whether you have already installed `git`, type the following command in a terminal.
 
 ```bash
 git
 ```
 
-- If the terminal doesn't understand the command, you need to install `git`. Use the given link to install `git`.
+- If the terminal doesn't understand the command, you need to install `git`. Use the given link to download `git` and then complete the installation process.
 
 [Download from here](https://git-scm.com/downloads)
